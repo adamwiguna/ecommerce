@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
             $table->string('name', 100)->nullable()->default('no-text-name-product');
             $table->string('size', 100)->nullable();
-            $table->bigInteger('price')->nullable()->default(null);
+            $table->float('price')->nullable()->default(null);
             $table->timestamps();
 
             $table->index('price', 'name', 'product_id');

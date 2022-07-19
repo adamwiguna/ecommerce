@@ -17,8 +17,28 @@
           
           <li class="menu-header">Transaction</li>
           <li class="{{ request()->routeIs('back-office.super-admin.cart.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.cart.index') }}"><i class="fas fa-shopping-cart"></i><span>Cart</span></a></li>
-          <li class="{{ request()->routeIs('back-office.super-admin.order.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}"><i class="fas fa-clipboard"></i><span>Booking</span></a></li>
-          <li ><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
+      
+          <li class="nav-item dropdown {{ request()->routeIs('back-office.super-admin.order.*')?'active':'' }}">
+            <a href="#" class="nav-link has-dropdown"><i class="fas fa-money-bill"></i> <span>Order</span></a>
+            <ul class="dropdown-menu ">
+              <li class="{{ request()->routeIs('back-office.super-admin.order.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">Wait For Payment </a></li>
+              <li><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">Ready to Process</a></li>
+              <li><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">In Process</a></li>
+              <li><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">Delivering</a></li>
+              <li><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">Done</a></li>
+            </ul>
+          </li>
+          {{-- <li class="nav-item dropdown active">
+            <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
+            <ul class="dropdown-menu">
+              <li><a class="nav-link" href="bootstrap-card.html">Card</a></li>
+              <li><a class="nav-link" href="bootstrap-carousel.html">Carousel</a></li>
+              <li class="active"><a class="nav-link" href="bootstrap-collapse.html">Collapse</a></li>
+              <li><a class="nav-link" href="bootstrap-dropdown.html">Dropdown</a></li>
+              <li><a class="nav-link" href="bootstrap-form.html">Form</a></li>
+              <li><a class="nav-link" href="bootstrap-list-group.html">List Group</a></li>
+            </ul>
+          </li> --}}
          
     </aside>
   </div>

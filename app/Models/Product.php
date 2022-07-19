@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Image;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -59,5 +60,15 @@ class Product extends Model
     public function carts(): HasMany
     {
         return $this->hasMany(Cart::class);
+    }
+
+    /**
+     * The orders that belong to the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_product', 'product_id', 'order_id')->withPivot('quantity');
     }
 }

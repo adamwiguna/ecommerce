@@ -33,7 +33,7 @@ Route::prefix('back-office')->name('back-office.')->group(function () {
        Route::delete('product/{image}/manage-image', [App\Http\Controllers\BackOffice\SuperAdmin\ProductController::class, 'deleteImage'])->name('product.delete-image');
        
        Route::resource('customer', App\Http\Controllers\BackOffice\SuperAdmin\CustomerController::class);
-       Route::resource('order', App\Http\Controllers\BackOffice\SuperAdmin\CustomerController::class);
+       Route::resource('order', App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class);
 
        Route::get('cart', [App\Http\Controllers\BackOffice\SuperAdmin\CartController::class, 'index'])->name('cart.index');
 
