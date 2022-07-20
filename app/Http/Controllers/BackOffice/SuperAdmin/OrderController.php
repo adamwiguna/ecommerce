@@ -15,11 +15,96 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::latest()->paginate();
+        return view('back-office.super-admin.order.index');
+    }
 
-        return view('back-office.super-admin.order.index', [
-            'orders' => $orders,
+    public function paid(Order $order)
+    {
+        if ($order->done == 1 || $order->canceled == 1) {
+            return redirect()->back();
+        }
+
+        $order->update([
+            'is_paid' => 1,
         ]);
+
+        return redirect()->back()->with('success-message', 'Success Update Payment Status to Paid');
+    }
+
+    public function unpaid(Order $order)
+    {
+        if ($order->done == 1 || $order->canceled == 1) {
+            return redirect()->back();
+        }
+
+        $order->update([
+            'is_paid' => 0,
+        ]);
+
+        return redirect()->back()->with('success-message', 'Success Update Payment Status to UnPaid');
+    }
+
+    public function onProcess(Order $order)
+    {
+        if ($order->done == 1 || $order->canceled == 1) {
+            return redirect()->back();
+        }
+
+        $order->update([
+            'in_process' => 1,
+        ]);
+
+        return redirect()->back()->with('success-message', 'Success Update On Work Status to Working');
+    }
+
+    public function offProcess(Order $order)
+    {
+        if ($order->done == 1 || $order->canceled == 1) {
+            return redirect()->back();
+        }
+
+        $order->update([
+            'in_process' => 0,
+        ]);
+
+        return redirect()->back()->with('success-message', 'Success Update On Work Status to Not Yet');
+    }
+
+    public function done(Order $order)
+    {
+        $order->update([
+            'done' => 1,
+        ]);
+
+        return redirect()->back()->with('success-message', 'This Order Is DONE, Conglaturaions');
+    }
+ 
+    public function cancel(Order $order)
+    {
+        $order->update([
+            'canceled' => 1,
+        ]);
+
+        return redirect()->back()->with('success-message', 'This Order Is Canceled');
+    }
+
+    public function unCancel(Order $order)
+    {
+        $order->update([
+            'canceled' => 0,
+        ]);
+
+        return redirect()->back()->with('success-message', 'This Order Is Un-Canceled');
+    }
+
+    public function unDone(Order $order)
+    {
+        // dd($order->id);
+        $order->update([
+            'done' => 0,
+        ]);
+
+        return redirect()->back()->with('success-message', 'This Order Is Un-Done');
     }
 
     /**

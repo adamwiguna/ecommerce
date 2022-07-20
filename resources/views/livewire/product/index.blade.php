@@ -116,7 +116,7 @@
         <div class="card-footer row">
           <div class="col-sm-12 col-md-12">
               <div class="dataTables_info">
-                Menampilkan total {{ $products->total() }} data
+                Showing {{ $products->total() }} total data
               </div>
               
             </div>

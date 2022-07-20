@@ -21,11 +21,9 @@
           <li class="nav-item dropdown {{ request()->routeIs('back-office.super-admin.order.*')?'active':'' }}">
             <a href="#" class="nav-link has-dropdown"><i class="fas fa-money-bill"></i> <span>Order</span></a>
             <ul class="dropdown-menu ">
-              <li class="{{ request()->routeIs('back-office.super-admin.order.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">Wait For Payment </a></li>
-              <li><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">Ready to Process</a></li>
-              <li><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">In Process</a></li>
-              <li><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">Delivering</a></li>
-              <li><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">Done</a></li>
+              <li class="{{ request()->routeIs('back-office.super-admin.order.index')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.order.index') }}">On Process({{ \App\Models\Order::where('done', 0)->where('canceled', 0)->count() }})</a></li>
+              <li class="{{ request()->routeIs('back-office.super-admin.order.done')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.order.done') }}">Done ({{ \App\Models\Order::where('done', 1)->count() }})</a></li>
+              <li class="{{ request()->routeIs('back-office.super-admin.order.cancel')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.order.cancel') }}">Cancel ({{ \App\Models\Order::where('canceled', 1)->count() }})</a></li>
             </ul>
           </li>
           {{-- <li class="nav-item dropdown active">

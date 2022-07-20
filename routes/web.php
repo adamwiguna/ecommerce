@@ -33,7 +33,22 @@ Route::prefix('back-office')->name('back-office.')->group(function () {
        Route::delete('product/{image}/manage-image', [App\Http\Controllers\BackOffice\SuperAdmin\ProductController::class, 'deleteImage'])->name('product.delete-image');
        
        Route::resource('customer', App\Http\Controllers\BackOffice\SuperAdmin\CustomerController::class);
-       Route::resource('order', App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class);
+       Route::prefix('order')->name('order.')->group(function () {
+           Route::get('index', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'index'])->name('index');
+           Route::put('index/{order}/paid-payment', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'paid'])->name('update.paid-payment');
+           Route::put('index/{order}/unpaid-payment', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'unpaid'])->name('update.unpaid-payment');
+           Route::put('index/{order}/on-process', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'onProcess'])->name('update.on-process');
+           Route::put('index/{order}/off-process', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'offProcess'])->name('update.off-process');
+           Route::put('index/{order}/done', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'done'])->name('update.done');
+           Route::put('index/{order}/cancel', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'cancel'])->name('update.cancel');
+
+           Route::get('cancel', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'index'])->name('cancel');
+           Route::put('cancel/{order}', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'unCancel'])->name('uncancel');
+           Route::get('done', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'index'])->name('done');
+           Route::put('done/{order}', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'unDone'])->name('undone');
+           
+       });
+       Route::resource('order', App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class)->except('index');
 
        Route::get('cart', [App\Http\Controllers\BackOffice\SuperAdmin\CartController::class, 'index'])->name('cart.index');
 
