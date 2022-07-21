@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\BackOffice\SuperAdmin;
 
+use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,7 +20,25 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::whereNull('category_id')->with('subCategories.subCategories')->get();
-        // dd($categories);
+
+        // // Find Products
+        // $id = 3;
+        // $ids = [];
+        
+        // $categories = (Category::with('subCategories.subCategories')->find($id));
+        // $ids = (collect($categories->subCategories)->pluck('id')->all());
+
+        // foreach ($categories->subCategories as $subCategory ) {
+        //     // dd($subCategory);
+        //     $ids = array_merge($ids, collect($subCategory->subCategories)->pluck('id')->all());
+        // }
+        
+        // $ids[] = $id;
+        // $products = Product::whereHas('categories', function ($query) use ($ids){
+        //     $query->whereIn('id', $ids);
+        // })->get();
+     
+        // dd($products);
 
         return view('back-office.super-admin.category.index', [
             'categories' => $categories,

@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\User::factory(10)->create();
 
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 2; $i++) { 
             $category = \App\Models\Category::create([
                 'name' => $faker->sentence(2),
             ]);   
@@ -34,8 +34,8 @@ class DatabaseSeeder extends Seeder
                 'url' => $faker->imageUrl(640, 480, 'Top Parent', true),
             ]);
 
-            $rand = rand(5, 15);
-            for ($j=0; $j < $rand; $j++) { 
+            $rand = rand(2, 2);
+            for ($j=0; $j < 2; $j++) { 
                 $subCategory = $category->subCategories()->create([
                     'name' => $faker->sentence(),
                 ]);
@@ -44,12 +44,12 @@ class DatabaseSeeder extends Seeder
                     'url' => $faker->imageUrl(640, 480, 'Second Level Categories', true),
                 ]);
 
-                for ($k=0; $k < 5; $k++) { 
+                for ($k=0; $k < 2; $k++) { 
                     $subSubCategory = $subCategory->subCategories()->create([
                         'name' => $faker->sentence(),
                     ]);
 
-                    for ($l=0; $l < 100; $l++) { 
+                    for ($l=0; $l < 10; $l++) { 
                         $hasSize = rand(0,1);
                         $product = \App\Models\Product::create([
                                     'name' => $faker->catchPhrase(),
@@ -58,8 +58,8 @@ class DatabaseSeeder extends Seeder
                                 ]);
             
                         if ($hasSize) {
-                            $totalSize = rand(2,5);
-                            for ($j=0; $j < $totalSize; $j++) { 
+                            $totalSize = rand(2,2);
+                            for ($m=0; $m < $totalSize; $m++) { 
                                 $size = rand(1,100);
                                 $product->sizes()->create([
                                     'name' => $product->name.'Size: '.$size,
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
                         }
 
                         $image = rand(3, 10);
-                        for ($m=0; $m < $image; $m++) { 
+                        for ($n=0; $n < $image; $n++) { 
                             $product->images()->create([
                                 'url' => $faker->imageUrl(640, 480, 'HandCraft', true),
                             ]);

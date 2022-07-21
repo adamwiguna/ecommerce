@@ -21,7 +21,7 @@ return new class extends Migration
             $table->float('price')->nullable()->default(null);
             $table->timestamps();
 
-            $table->index('price', 'name', 'product_id');
+            $table->index(['price', 'name', 'product_id']);
         });
     }
 
