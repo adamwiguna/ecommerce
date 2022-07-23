@@ -24,7 +24,7 @@
     </div>
     <div class="card-body">
       
-        @livewire('product.create')
+        @livewire('back-office.product.create')
         {{-- <livewire:product.create /> --}}
       
         

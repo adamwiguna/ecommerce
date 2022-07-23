@@ -53,14 +53,14 @@
                           </div>
                         </td>
                         <td>
-                          @if ($order->is_paid == 1)
+                          @if ($order->is_paid !== null)
                             <div class="badge badge-success">Paid</div>  
                           @else
                             <div class="badge badge-warning">Unpaid</div>  
                           @endif
                         </td>
                         <td>
-                          @if ($order->in_process == 1)
+                          @if ($order->in_process !== null)
                             <div class="badge badge-success">Working</div>  
                           @else
                             <div class="badge badge-warning">Not Yet</div>  
@@ -78,6 +78,14 @@
                             <div class="dropdown-menu dropleft">
                               <div class="dropdown-title">{{ $order->id ?? 'Unknown' }}</div>
                               @if (request()->routeIs('back-office.super-admin.order.index'))
+                              
+                                <form action="{{ route('back-office.super-admin.order.update.total', ['order' => $order])  }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('Are You Sure ?');">
+                                        Recalculate
+                                    </button>
+                                </form>
 
                                 @if ($order->is_paid == 0)
                                   <form action="{{ route('back-office.super-admin.order.update.paid-payment', ['order' => $order])  }}" method="POST">
@@ -132,24 +140,25 @@
                                 
                               @endif
                                 
-                                @if (request()->routeIs('back-office.super-admin.order.cancel'))
-                                  <form action="{{ route('back-office.super-admin.order.uncancel', ['order' => $order])  }}" method="POST">
-                                      @csrf
-                                      @method('PUT')
-                                      <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('Are You Sure ?');">
-                                          UnCancel
-                                      </button>
-                                  </form>
-                                @endif
-                                @if (request()->routeIs('back-office.super-admin.order.done'))
-                                  <form action="{{ route('back-office.super-admin.order.undone', ['order' => $order])  }}" method="POST">
-                                      @csrf
-                                      @method('PUT')
-                                      <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('Are You Sure ?');">
-                                          UnDone
-                                      </button>
-                                  </form>
-                                @endif
+                              @if (request()->routeIs('back-office.super-admin.order.cancel'))
+                                <form action="{{ route('back-office.super-admin.order.uncancel', ['order' => $order])  }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('Are You Sure ?');">
+                                        UnCancel
+                                    </button>
+                                </form>
+                              @endif
+                              
+                              @if (request()->routeIs('back-office.super-admin.order.done'))
+                                <form action="{{ route('back-office.super-admin.order.undone', ['order' => $order])  }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('Are You Sure ?');">
+                                        UnDone
+                                    </button>
+                                </form>
+                              @endif
 
                             </div>
                           </div>

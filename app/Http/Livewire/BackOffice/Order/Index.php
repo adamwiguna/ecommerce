@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Order;
+namespace App\Http\Livewire\BackOffice\Order;
 
 use App\Models\Order;
 use Livewire\Component;
@@ -17,17 +17,17 @@ class Index extends Component
         $currentRouteName = Route::currentRouteName();
         $routeName = 'back-office.super-admin.order.';
 
-        $orders = Order::where('canceled', 0)->where('done', 0)->with(['user', 'products.parent'])->latest()->paginate();
+        $orders = Order::whereNull('canceled')->whereNull('done')->with(['user', 'products.parent'])->latest()->paginate();
         
         if ($currentRouteName == $routeName.'done' ) {
-            $orders = Order::where('done', 1)->with(['user', 'products.parent'])->latest()->paginate();
+            $orders = Order::whereNotNull('done')->with(['user', 'products.parent'])->latest()->paginate();
         }
 
         if ($currentRouteName == $routeName.'cancel' ) {
-            $orders = Order::where('canceled', 1)->with(['user', 'products.parent'])->latest()->paginate();
+            $orders = Order::whereNotNull('canceled')->with(['user', 'products.parent'])->latest()->paginate();
         }
 
-        return view('livewire.order.index', [
+        return view('livewire.back-office.order.index', [
             'orders' => $orders,
         ]);
     }

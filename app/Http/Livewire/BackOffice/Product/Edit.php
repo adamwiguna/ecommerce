@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Product;
+namespace App\Http\Livewire\BackOffice\Product;
 
 use App\Models\Product;
 use Livewire\Component;
@@ -14,11 +14,13 @@ class Edit extends Component
     public function mount($product)
     {
         foreach ($this->product->sizes as $index => $product) {
-            $this->sizes[] = ['size' => $product->size, 'price' => $product->price];
-        }
-
-        if ($this->product->sizes->count() == 0) {
-            $this->sizes[] = ['size' => $this->product->size, 'price' => $this->product->price];
+            $this->sizes[] = [
+                'id' => $product->id, 
+                'size' => $product->size, 
+                'price' => $product->price,
+                'carts' => $product->carts->count(),
+                'orders' => $product->orders->where('done', null)->where('canceled', null)->count(),
+            ];
         }
     }
 
@@ -26,15 +28,14 @@ class Edit extends Component
     {
         $categories = Category::whereNull('category_id')->with('subCategories.subCategories')->get();
 
-        return view('livewire.product.edit', [
+        return view('livewire.back-office.product.edit', [
             'categories' => $categories,
         ]);
     }
 
     public function addSize()
     {
-        $this->sizes[] = ['size' => '', 'price' => ''];
-        // dd( $this->sizes);
+        $this->sizes[] = ['id' => '', 'size' => '', 'price' => ''];
     }
 
     public function removeSize($index)

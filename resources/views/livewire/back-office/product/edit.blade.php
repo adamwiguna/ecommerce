@@ -1,13 +1,14 @@
 <div>
-    <form action="{{ route('back-office.super-admin.product.store') }}" method="POST">
+    <form action="{{ route('back-office.super-admin.product.update', ['product' => $product]) }}" method="POST">
         @csrf
+        @method('PUT')
         <div class="form-group">
           <label>Name</label>
-          <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+          <input type="text" class="form-control" name="name" value="{{ old('name', $product->name) }}" required>
         </div>
         <div class="form-group">
           <label>Minimum Order</label>
-          <input type="text" class="form-control" name="minimum_order" value="{{ old('minimum_order') }}">
+          <input type="number" class="form-control" name="minimum_order" value="{{ old('minimum_order', $product->minimum_order) }}" required>
         </div>
         <div class="form-group" wire:ignore>
           <label>Category</label>
@@ -17,7 +18,7 @@
                 @foreach ($category->subCategories as $subCategory)
                   <optgroup label="{{ $subCategory->name }}">
                       @foreach ($subCategory->subCategories as $sub)
-                          <option value="{{ $sub->id }}">{{ $sub->name }}</option>
+                          <option value="{{ $sub->id }}" @selected($this->product->categories->pluck('id')->contains($sub->id))>{{ $sub->name }}</option>
                       @endforeach
                   </optgroup>
                 @endforeach
@@ -26,22 +27,40 @@
           </select>
         </div>
         <div class="form-row mb-0 p-0">
+            <div class="form-group col-md-1 mb-0 pb-0">
+              <label for="size">Id</label>
+            </div>
             <div class="form-group col-md-3 mb-0 pb-0">
               <label for="size">Size</label>
             </div>
             <div class="form-group col-md-3 mb-0 pb-0">
               <label for="price">Price</label>
             </div>
+            <div class="form-group col-md-1 mb-0 pb-0">
+              <label for="price">In Carts</label>
+            </div>
+            <div class="form-group col-md-1 mb-0 pb-0">
+              <label for="price">In Orders</label>
+            </div>
           </div>
         @foreach ($sizes as $index => $size)
         <div class="form-row">
-            <div class="form-group col-md-3">
-                <input value="{{ old('size['.$index.']') }}" type="text" name="size[{{ $index }}]" wire:model="sizes.{{ $index }}.size" class="form-control"  placeholder="Size.." >
+            <div class="form-group col-md-1">
+              <input type="number" name="size[{{ $index }}][id]" wire:model="sizes.{{ $index }}.id" class="form-control text-small pr-1"  readonly>
             </div>
             <div class="form-group col-md-3">
-                <input value="{{ old('price['.$index.']') }}" type="number" name="price[{{ $index }}]" wire:model="sizes.{{ $index }}.price" class="form-control" placeholder="Price.." >
+              <input type="text" name="size[{{ $index }}][size]" wire:model="sizes.{{ $index }}.size" class="form-control"  placeholder="Size.." >
             </div>
             <div class="form-group col-md-3">
+                <input type="number" name="size[{{ $index }}][price]" step="0.01" wire:model="sizes.{{ $index }}.price" class="form-control" placeholder="Price.." >
+            </div>
+            <div class="form-group col-md-1">
+                <input type="number"  wire:model="sizes.{{ $index }}.carts" class="form-control" readonly>
+            </div>
+            <div class="form-group col-md-1">
+                <input type="number"  wire:model="sizes.{{ $index }}.orders" class="form-control"  readonly>
+            </div>
+            <div class="form-group col-md-1">
                 <button type="button" wire:click="removeSize({{ $index }})" class="btn btn-danger" >
                     X
                   </button>  
@@ -63,3 +82,4 @@
       
 
 </div>
+

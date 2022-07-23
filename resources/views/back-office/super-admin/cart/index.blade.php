@@ -33,10 +33,12 @@
       <div class="card-body">
         @foreach ($carts as $usersCarts)
         <h5>
-          {{ $usersCarts[0]->user->name }}
+          {{ $usersCarts->name }}
+          {{-- {{ $usersCarts[0]->user->name }} --}}
         </h5>
         
-        {{ $usersCarts[0]->user->email }}
+        {{ $usersCarts->email }}
+        {{-- {{ $usersCarts[0]->user->email }} --}}
         <div class="table-responsive">
             <table class="table table-hover" >
               <thead>
@@ -48,7 +50,7 @@
                 </tr>
               </thead>
               <tbody>
-                  @foreach ($usersCarts as $cart)
+                  @foreach ($usersCarts->carts as $cart)
                   <tr>
                       <td >
                           {{ $cart->product->parent->name??$cart->product->name }} <br>
@@ -60,7 +62,7 @@
                           {{ $cart->product->size??'One Size' }} <br>
                       </td>
                       <td>
-                        {{ $cart->total }}
+                        {{ $cart->quantity }}
                       </td>
                   </tr>
                   @endforeach
@@ -77,15 +79,15 @@
       <div class="card-footer row">
         {{-- <div class="col-sm-12 col-md-12">
             <div class="dataTables_info">
-              Menampilkan total {{ $categories->total() }} data
+              Menampilkan total {{ $carts->total() }} data
             </div>
             
-          </div>
+          </div> --}}
           <div class="col-sm-12 col-md-12">
             <div class="dataTables_paginate ">
-              {{ $categories->withQueryString()->onEachSide(2)->links() }}
+              {{ $carts->withQueryString()->onEachSide(2)->links() }}
             </div>
-          </div> --}}
+          </div>
       </div>
     </div>
   </div>

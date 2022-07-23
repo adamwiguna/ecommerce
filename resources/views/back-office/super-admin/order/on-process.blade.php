@@ -27,7 +27,7 @@
     <h2 class="section-title">Waiting For Payment</h2>
     <p class="section-lead">This page showing all unpaid order </p>
     
-    @livewire('order.index')
+    @livewire('back-office.order.index')
 
   </div>
     

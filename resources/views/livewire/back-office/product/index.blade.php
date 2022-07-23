@@ -69,7 +69,7 @@
                           <td>
                               {{ $product->name }}
                           </td>
-                          <td>
+                          <td class="pt-0">
                             <ul class="m-0 p-0 ml-3">
                               @forelse ($product->categories as $category)
                               <li>
@@ -88,19 +88,19 @@
                               @forelse ($product->sizes as $size)
                                   <tr>
                                       <td style="width:  60%">
-                                        {{ $size->size ?? 'no size' }}
+                                        {{ $size->size ?? 'Not Set' }}
                                       </td>
                                       <td style="width:  40%">
-                                        $ {{ $size->price ?? 'no price' }}
+                                        $ {{ $size->price ?? 'Not Set' }}
                                       </td>
                                   </tr>
                                 @empty
                                   <tr>
                                       <td style="width:  60%">
-                                        {{ $product->size ?? 'One Size' }}
+                                        {{ $product->size ?? 'Not Set' }}
                                       </td>
                                       <td style="width:  40%">
-                                        $ {{ $product->price ?? 'no price' }}
+                                        $ {{ $product->price ?? 'Not Set' }}
                                       </td>
                                   </tr>
                                 @endforelse

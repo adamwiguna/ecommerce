@@ -51,20 +51,12 @@ class ProductController extends Controller
             'minimum_order' => $request->minimum_order,
         ]);
 
-        if (count($request->size) == 1) {
-            $product->update([
-                'size' => $request->size[0],
-                'price' => $request->price[0],
+        foreach ($request->size as $size) {
+            $product->sizes()->create([
+                'name' => $product->name.' Size: '.$size['size'],
+                'size' => $size['size'],
+                'price' => $size['price'],
             ]);
-        } else
-        if (count($request->size) > 1) {
-            foreach ($request->size as $index => $value) {
-                $product->sizes()->create([
-                    'name' => $product->name.' Size: '.$request->size[$index],
-                    'size' => $request->size[$index],
-                    'price' => $request->price[$index],
-                ]);
-            }
         }
 
         $product->categories()->attach($request->category);
@@ -143,7 +135,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        // dd($request->category);
+        // dd(collect($request->size)->pluck('id')->all());
         $request->validate([
             'name' => 'required|min:3|max:100',
             'minimum_order' => 'required',
@@ -152,33 +144,22 @@ class ProductController extends Controller
             'price.*' => 'required',
         ]);
 
+        $product->update([
+            'name' => $request->name,
+            // 'minimum_order' => $request->minimum_order,
+            // 'size' => null,
+            // 'price' => null,
+        ]);
 
-        if (count($request->size) == 1) {
-            $product->sizes()->delete();
-            $product->update([
-                'name' => $request->name,
-                'minimum_order' => $request->minimum_order,
-                'size' => $request->size[0],
-                'price' => $request->price[0],
+        foreach ($request->size as $size) {
+            $product->sizes()->updateOrCreate(['id' => $size['id']], [
+                'name' => $product->name.' Size: '.$size['size'],
+                'size' => $size['size'],
+                'price' => $size['price'],
             ]);
-        } else
-        if (count($request->size) > 1) {
-            $product->sizes()->delete();
-            $product->update([
-                'name' => $request->name,
-                'minimum_order' => $request->minimum_order,
-                'size' => null,
-                'price' => null,
-            ]);
-
-            foreach ($request->size as $index => $value) {
-                $product->sizes()->create([
-                    'name' => $product->name.' Size: '.$request->size[$index],
-                    'size' => $request->size[$index],
-                    'price' => $request->price[$index],
-                ]);
-            }
         }
+
+        $product->sizes()->whereNotIn('id', collect($request->size)->pluck('id')->all())->delete();
         
         $product->categories()->detach();
         $product->categories()->attach($request->category);

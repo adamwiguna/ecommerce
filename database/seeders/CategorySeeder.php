@@ -188,11 +188,11 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Handicrafts',
-                'url' => '',
+                'url' => 'https://www.baliparcel.com/media/content/product_category_group/handicrafts.jpg',
                 'sub' => [
                     [
                         'name' => 'Aboriginal Artwork',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/aboriginal-artwork.jpg',
                         'sub' => [
                             'Boomerang Carved',
                             'Boomerang Killing & Hook',
@@ -210,14 +210,14 @@ class CategorySeeder extends Seeder
                     ],
                     [
                         'name' => 'Aromatherapy And Spa',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/aromatheraphy-spa.jpg',
                         'sub' => [
                             'Incense & Essential Oil'
                         ]
                     ],
                     [
                         'name' => 'Bali Airbrush Crafts',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Bali-Airbrush-Crafts.jpg',
                         'sub' => [
                             'Airbrush Keychain',
                             'Airbrush Magnet',
@@ -228,7 +228,7 @@ class CategorySeeder extends Seeder
                     ],
                     [
                         'name' => 'Indian, Tiki And Primitive',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/tiki-indian-native-american.jpg',
                         'sub' => [
                             'Accessories',
                             'Pirates And Skulls',
@@ -243,14 +243,14 @@ class CategorySeeder extends Seeder
                     ],
                     [
                         'name' => 'Mask',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/African-aboriginal-mask.jpg',
                         'sub' => [
                             'Mask'
                         ]
                     ],
                     [
                         'name' => 'Musical Intrument',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Musical-Intrument.jpg',
                         'sub' => [
                             'Djembe Drums',
                             'Musical Instruments',
@@ -259,7 +259,7 @@ class CategorySeeder extends Seeder
                     ],
                     [
                         'name' => 'Other Handicrafts 1',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Other-Handicrafts-1.jpg',
                         'sub' => [
                             'Bookmarks',
                             'Calendar',
@@ -275,7 +275,7 @@ class CategorySeeder extends Seeder
                     ],
                     [
                         'name' => 'Other Handicrafts 2',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Other-Handicrafts-2.jpg',
                         'sub' => [
                             'Hangers',
                             'Incense Holders',
@@ -291,7 +291,7 @@ class CategorySeeder extends Seeder
                     ],
                     [
                         'name' => 'Photos',
-                        'url' => '',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/photo-album.jpg',
                         'sub' => [
                             'Natural Leaves Photo Albums',
                             'Picture Frames',
@@ -299,6 +299,143 @@ class CategorySeeder extends Seeder
                     ],
                 ]
             ],
+            [
+                'name' => 'Jewelry',
+                'url' => 'https://www.baliparcel.com/media/content/product_category_group/jewelry.jpg',
+                'sub' => [
+                    [
+                        'name'=> 'Bali Jewelry Bracelets',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Bali-Jewelry-Bracelets.jpg',
+                        'sub' => [
+                            'Bracelets - Beaded & Shell',
+                            'Bracelets - Silver',
+                            'Bracelets - Wooden',
+                        ]
+                    ],
+                    [
+                        'name'=> 'Bali Jewelry Earrings',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Bali-Jewelry-Earrings.jpg',
+                        'sub' => [
+                            'Earrings - Beaded & Shell',
+                            'Earrings - Bone',
+                            'Earrings - Silver',
+                            'Earrings - Wooden',
+                        ]
+                    ],
+                    [
+                        'name'=> 'Bali Jewelry Necklaces',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Bali-Jewelry-Necklaces.jpg',
+                        'sub' => [
+                            'Necklaces - Beaded & Shell',
+                            'Necklaces - Silver',
+                            'Necklaces - Tassel',
+                            'Necklaces - Wooden',
+                        ]
+                    ],
+                    [
+                        'name'=> 'Bali Jewelry Piercings',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Bali-Jewelry-Piercings.jpg',
+                        'sub' => [
+                            'Piercings - Bone',
+                            'Piercings - Coconut',
+                            'Piercings - Horn',
+                        ]
+                    ],
+                    [
+                        'name'=> 'Bali Jewelry Rings',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Bali-Jewelry-Rings.jpg',
+                        'sub' => [
+                            'Rings - Silver',
+                            'Rings Beaded & Shell',
+                            'Rings Wooden',
+                        ]
+                    ],
+                    [
+                        'name'=> 'Bali Jewelry Stick Earrings',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Bali-Jewelry-Stick-Earrings.jpg',
+                        'sub' => [
+                            'Stick Earring - Bone',
+                            'Stick Earring - Horn',
+                            'Stick Earring - Wooden',
+                        ]
+                    ],
+                    [
+                        'name'=> 'Other Bali Jewelry',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Other-Bali-Jewelry.jpg',
+                        'sub' => [
+                            'Belts - Beaded & Shell',
+                            'Bross',
+                            'Hair Ornaments',
+                        ]
+                    ],
+                ]
+            ],
+            [
+                'name' => 'Furniture',
+                'url' => 'https://www.baliparcel.com/media/content/product_category_group/furniture.jpg',
+                'sub' => [
+                    [
+                        'name' => 'Teak Wood',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Teak-Wood.jpg',
+                        'sub' => [
+                            'Old Teak Furnitures',
+                            'Teak Root Furnitures',
+                        ]
+                    ],
+                    [
+                        'name' => 'Suar Wood Furnitures',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Suar-Wood.jpg',
+                        'sub' => [
+                            'Mixed Suar Wood Fruniture',
+                            'Table Dining Set',
+                        ]
+                    ],
+                    [
+                        'name' => 'Other Furnitures',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Other-Furnitures.jpg',
+                        'sub' => [
+                            'Bamboo Furnitures',
+                            'Bananaleaf Furniture',
+                            'Cabinets And CD Racks',
+                            'Rattan Furnitures',
+                        ]
+                    ],
+                ]
+            ],
+            [
+                'name' => 'Garments',
+                'url' => 'https://www.baliparcel.com/media/content/product_category_group/garments.jpg',
+                'sub' => [
+                    [
+                        'name' => 'Beach Hat',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/HBH010001-1_16250255015829.jpg',
+                        'sub' => [
+                            'Bali Beach And Sun Hat',
+                        ]
+                    ],
+                    [
+                        'name' => 'Hand Bags',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Hand-Bags.jpg',
+                        'sub' => [
+                            'Batik Travel Bags',
+                            'Glass Mosaic Bags',
+                            'Natural Bags',
+                            'Shell & Beads Bags',
+                        ]
+                    ],
+                    [
+                        'name' => 'Other Garments',
+                        'url' => 'https://www.baliparcel.com/media/content/product_category/Other-Garments.jpg',
+                        'sub' => [
+                            'Cushions',
+                            'Dresses',
+                            'Sandals Beach Footwear',
+                            'Sarong Ties',
+                            'Sarongs',
+                        ]
+                    ],
+                ]
+            ]
         ];
 
         foreach ($data as $dataCategory ) {
@@ -320,9 +457,38 @@ class CategorySeeder extends Seeder
                 ]);
 
                 foreach ($sub['sub'] as $subSub ) {
-                    $subCategory->subCategories()->create([
+                    $subSubCategory = $subCategory->subCategories()->create([
                         'name' => $subSub,
                     ]);
+
+                    $countProduct = rand(2,5);
+
+                    for ($l=0; $l < $countProduct; $l++) { 
+                        $product = \App\Models\Product::create([
+                                    'name' => $faker->catchPhrase(),
+                                    'minimum_order' => rand(5, 50)
+                                ]);
+            
+                        $totalSize = rand(1,3);
+                        for ($m=0; $m < $totalSize; $m++) { 
+                            $size = rand(1,100);
+                            $product->sizes()->create([
+                                'name' => $product->name.'Size: '.$size,
+                                'size' => $size,
+                                'price' => rand(10,100),
+                            ]);
+                        }
+
+                        $image = rand(2, 5);
+                        for ($n=0; $n < $image; $n++) { 
+                            $product->images()->create([
+                                'url' => $faker->imageUrl(640, 480, 'HandCraft', true),
+                            ]);
+                        }
+
+                        $subSubCategory->products()->attach($product);
+                    }
+
                 }
 
             }

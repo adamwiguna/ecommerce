@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackOffice\SuperAdmin;
 
 use App\Models\Cart;
+use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,7 +12,8 @@ class CartController extends Controller
 {
     public function index()
     {
-        $carts = Cart::get()->groupBy('user_id');
+        // $carts = Cart::groupBy('user_id')->paginate();
+        $carts = User::whereHas('carts')->with('carts')->paginate();
 
         // dd($carts);
 

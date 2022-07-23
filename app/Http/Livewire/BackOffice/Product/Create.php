@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Product;
+namespace App\Http\Livewire\BackOffice\Product;
 
 use Livewire\Component;
 use App\Models\Category;
@@ -17,7 +17,7 @@ class Create extends Component
     
         $categories = Category::whereNull('category_id')->with('subCategories.subCategories')->get();
    
-        return view('livewire.product.create', [
+        return view('livewire.back-office.product.create', [
             'categories' => $categories,
         ]);
     }
@@ -26,7 +26,6 @@ class Create extends Component
     public function addSize()
     {
         $this->sizes[] = ['size' => '', 'price' => ''];
-        // dd( $this->sizes);
     }
 
     public function removeSize($index)

@@ -35,6 +35,7 @@ Route::prefix('back-office')->name('back-office.')->group(function () {
        Route::resource('customer', App\Http\Controllers\BackOffice\SuperAdmin\CustomerController::class);
        Route::prefix('order')->name('order.')->group(function () {
            Route::get('index', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'index'])->name('index');
+           Route::put('index/{order}/total', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'updateTotal'])->name('update.total');
            Route::put('index/{order}/paid-payment', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'paid'])->name('update.paid-payment');
            Route::put('index/{order}/unpaid-payment', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'unpaid'])->name('update.unpaid-payment');
            Route::put('index/{order}/on-process', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'onProcess'])->name('update.on-process');
@@ -48,6 +49,9 @@ Route::prefix('back-office')->name('back-office.')->group(function () {
            Route::put('done/{order}', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'unDone'])->name('undone');
            
        });
+
+       Route::resource('slider', App\Http\Controllers\BackOffice\SuperAdmin\SliderController::class);
+
        Route::resource('order', App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class)->except('index');
 
        Route::get('cart', [App\Http\Controllers\BackOffice\SuperAdmin\CartController::class, 'index'])->name('cart.index');

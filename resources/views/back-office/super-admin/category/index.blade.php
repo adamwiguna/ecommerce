@@ -36,111 +36,118 @@
             <table class="table table-hover" >
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th class="p-0" style="width:  1%"></th>
+                  <th style="width:  98%">Name</th>
                   <th style="width:  1%">Action</th>
                 </tr>
               </thead>
               <tbody>
                   @foreach ($categories as $category)
                     <tr class=" text-bold text-capitalize" >
-                        <td>
-                          <a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#collapseExample{{ $category->id }}" role="button" aria-expanded="true" aria-controls="collapseExample">
-                            <i class="fas fa-folder-open"></i>
-                          </a>
-                            {{ $category->name }}
-                            <div class="collapse multi-collapse" aria-expanded="true" id="collapseExample{{ $category->id }}">
-                              <table class="table m-0">
-                                {{-- <thead>
-                                  <th>Name</th>
-                                  <th style="width:  1%">Action</th>
-                                </thead> --}}
-                                <tbody>
-                                  @foreach ($category->subCategories as $subCategory)
-                                    <tr >
-                                      <td>
-                                        <a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#collapseExample{{ $subCategory->id }}" role="button" aria-expanded="true" aria-controls="collapseExample">
-                                          <i class="fas fa-folder-open"></i>
-                                        </a>
-                                        {{ $subCategory->name }} 
-                                        <div class="collapse multi-collapse" id="collapseExample{{ $subCategory->id }}">
-                                          <table class="table m-0">
-                                            {{-- <thead>
-                                              <th>Name</th>
-                                              <th style="width:  1%">Action</th>
-                                            </thead> --}}
-                                            <tbody>
-                                              @foreach ($subCategory->subCategories as $subSubCategory)
-                                                <tr>
-                                                  <td>
-                                                      {{ $subSubCategory->name }}
-                                                  </td>
-                                                  <td style="width:  1%">
-                                                    <div class="btn-group dropleft">
-                                                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $subSubCategory->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                          Detail
-                                                      </button>
-                                                      <div class="dropdown-menu dropleft">
-                                                          <div class="dropdown-title">{{ $subSubCategory->name ?? 'Unknown' }}</div>
-                                                          <a class="dropdown-item has-icon" href="{{ route('back-office.super-admin.category.edit', ['category' => $subSubCategory]) }}"><i class="fas fa-edit"></i> Edit </a>
-                                                          <form action="{{ route('back-office.super-admin.category.destroy', ['category' => $subSubCategory])  }}" method="POST">
-                                                              @csrf
-                                                              @method('DELETE')
-                                                              <button type="submit" class="dropdown-item btn-sm" href="{{ route('back-office.super-admin.category.destroy', ['category' => $category]) }}" onclick="return confirm('Anda yakin ingin menghapus ini?');">
-                                                                  <i class="fas fa-trash mr-2"></i> Delete
-                                                              </button>
-                                                          </form>
-                                                      </div>
-                                                    </div>
-                                                  </td>
-                                                </tr>
-                                              @endforeach
-                                            </tbody>
-                                          </table>
-                                        </div>
-                                      </td>                                    
-                                      <td style="width:  1%">
-                                        <div class="btn-group dropleft">
-                                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $subCategory->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                              Detail
-                                          </button>
-                                          <div class="dropdown-menu dropleft">
-                                              <div class="dropdown-title">{{ $subCategory->name ?? 'Unknown' }}</div>
-                                              <a class="dropdown-item has-icon" href="{{ route('back-office.super-admin.category.edit', ['category' => $subCategory]) }}"><i class="fas fa-edit"></i> Edit </a>
-                                              <form action="{{ route('back-office.super-admin.category.destroy', ['category' => $subCategory])  }}" method="POST">
-                                                  @csrf
-                                                  @method('DELETE')
-                                                  <button type="submit" class="dropdown-item btn-sm" href="{{ route('back-office.super-admin.category.destroy', ['category' => $category]) }}" onclick="return confirm('Anda yakin ingin menghapus ini?');">
-                                                      <i class="fas fa-trash mr-2"></i> Delete
+                      <td class="p-0">
+                        <a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#collapseExample{{ $category->id }}" role="button" aria-expanded="true" aria-controls="collapseExample">
+                          <i class="fas fa-folder-open"></i>
+                        </a>
+                      </td>
+                      <td>
+                          {{ $category->name }}
+                      </td>
+                      
+                      <td>
+                          <div class="btn-group dropleft">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $category->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Detail
+                              </button>
+                              <div class="dropdown-menu dropleft">
+                                  <div class="dropdown-title">{{ $category->name ?? 'Unknown' }}</div>
+                                  <a class="dropdown-item has-icon" href="{{ route('back-office.super-admin.category.edit', ['category' => $category]) }}"><i class="fas fa-edit"></i> Edit </a>
+                                  <form action="{{ route('back-office.super-admin.category.destroy', ['category' => $category])  }}" method="POST">
+                                      @csrf
+                                      @method('DELETE')
+                                      <button type="submit" class="dropdown-item btn-sm" href="{{ route('back-office.super-admin.category.destroy', ['category' => $category]) }}" onclick="return confirm('Anda yakin ingin menghapus ini?');">
+                                          <i class="fas fa-trash mr-2"></i> Delete
+                                      </button>
+                                  </form>
+                              </div>
+                          </div>
+                      </td>
+                    </tr>
+                    <tr class="collapse multi-collapse show" aria-expanded="true" id="collapseExample{{ $category->id }}">
+                      <td class="p-0">  </td>
+                      <td colspan="2" class=" p-0">
+                        <div class="collapse multi-collapse show" aria-expanded="true" id="collapseExample{{ $category->id }}">
+                          <table class="table m-0">
+                            <tbody>
+                              @foreach ($category->subCategories as $subCategory)
+                                <tr>
+                                  <td class="p-0" style="width: 1%;">
+                                    <a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#collapseExample{{ $subCategory->id }}" role="button" aria-expanded="true" aria-controls="collapseExample">
+                                      <i class="fas fa-folder-open"></i>
+                                    </a>
+                                  </td>
+                                  <td>
+                                    {{ $subCategory->name }} 
+                                  </td>                                    
+                                  <td style="width:  1%">
+                                    <div class="btn-group dropleft">
+                                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $subCategory->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          Detail
+                                      </button>
+                                      <div class="dropdown-menu dropleft">
+                                          <div class="dropdown-title">{{ $subCategory->name ?? 'Unknown' }}</div>
+                                          <a class="dropdown-item has-icon" href="{{ route('back-office.super-admin.category.edit', ['category' => $subCategory]) }}"><i class="fas fa-edit"></i> Edit </a>
+                                          <form action="{{ route('back-office.super-admin.category.destroy', ['category' => $subCategory])  }}" method="POST">
+                                              @csrf
+                                              @method('DELETE')
+                                              <button type="submit" class="dropdown-item btn-sm" href="{{ route('back-office.super-admin.category.destroy', ['category' => $category]) }}" onclick="return confirm('Anda yakin ingin menghapus ini?');">
+                                                  <i class="fas fa-trash mr-2"></i> Delete
+                                              </button>
+                                          </form>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr class="collapse multi-collapse show" id="collapseExample{{ $subCategory->id }}">
+                                  <td class="p-0"></td>
+                                  <td colspan="2" class="p-0">
+                                    <div class="collapse multi-collapse show" id="collapseExample{{ $subCategory->id }}">
+                                      <table class="table m-0">
+                                        <tbody>
+                                          @foreach ($subCategory->subCategories as $subSubCategory)
+                                            <tr>
+                                              <td>
+                                                  {{ $subSubCategory->name }}
+                                              </td>
+                                              <td style="width:  1%">
+                                                <div class="btn-group dropleft">
+                                                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $subSubCategory->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      Detail
                                                   </button>
-                                              </form>
-                                          </div>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  @endforeach
-                                </tbody>
-                              </table>
-                            </div>
-                        </td>
-                        
-                        <td>
-                            <div class="btn-group dropleft">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $category->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Detail
-                                </button>
-                                <div class="dropdown-menu dropleft">
-                                    <div class="dropdown-title">{{ $category->name ?? 'Unknown' }}</div>
-                                    <a class="dropdown-item has-icon" href="{{ route('back-office.super-admin.category.edit', ['category' => $category]) }}"><i class="fas fa-edit"></i> Edit </a>
-                                    <form action="{{ route('back-office.super-admin.category.destroy', ['category' => $category])  }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="dropdown-item btn-sm" href="{{ route('back-office.super-admin.category.destroy', ['category' => $category]) }}" onclick="return confirm('Anda yakin ingin menghapus ini?');">
-                                            <i class="fas fa-trash mr-2"></i> Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </td>
+                                                  <div class="dropdown-menu dropleft">
+                                                      <div class="dropdown-title">{{ $subSubCategory->name ?? 'Unknown' }}</div>
+                                                      <a class="dropdown-item has-icon" href="{{ route('back-office.super-admin.category.edit', ['category' => $subSubCategory]) }}"><i class="fas fa-edit"></i> Edit </a>
+                                                      <form action="{{ route('back-office.super-admin.category.destroy', ['category' => $subSubCategory])  }}" method="POST">
+                                                          @csrf
+                                                          @method('DELETE')
+                                                          <button type="submit" class="dropdown-item btn-sm" href="{{ route('back-office.super-admin.category.destroy', ['category' => $category]) }}" onclick="return confirm('Anda yakin ingin menghapus ini?');">
+                                                              <i class="fas fa-trash mr-2"></i> Delete
+                                                          </button>
+                                                      </form>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          @endforeach
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td>
+                                </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
                     </tr>
                     
                       

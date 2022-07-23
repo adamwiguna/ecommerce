@@ -15,10 +15,11 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('order_product', function (Blueprint $table) {
+            $table->id();
             $table->foreignIdFor(Order::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Product::class)->constrained()->onDelete('cascade');
-            $table->primary(['order_id', 'product_id']);
             $table->integer('quantity');
+            // $table->primary(['order_id', 'product_id']);
 
             $table->index('order_id');
             $table->index('product_id');

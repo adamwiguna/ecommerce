@@ -27,7 +27,7 @@
             </div>
         </div>
     @endif
-    @livewire('product.index')
+    @livewire('back-office.product.index')
   
   </div>
     

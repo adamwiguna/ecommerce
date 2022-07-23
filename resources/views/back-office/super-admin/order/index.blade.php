@@ -28,7 +28,7 @@
     <h2 class="section-title">All Order List</h2>
     <p class="section-lead">This page showing all order </p>
     
-    @livewire('order.index')
+    @livewire('back-office.order.index')
 
   </div>
     

@@ -17,16 +17,18 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->double('total')->nullable();
-            $table->boolean('is_paid')->nullable()->default(false);
-            $table->boolean('in_process')->nullable()->default(false);
-            $table->boolean('in_delivery')->nullable()->default(false);
-            $table->boolean('is_sent')->nullable()->default(false);
+            $table->dateTime('is_paid')->nullable()->default(null);
+            $table->dateTime('in_process')->nullable()->default(null);
+            $table->dateTime('canceled')->nullable()->default(null);
+            $table->dateTime('done')->nullable()->default(null);
 
+            $table->index('done');
+            $table->index('canceled');
             $table->index('user_id');
             $table->index('is_paid');
             $table->index('in_process');
-            $table->index('in_delivery');
-            $table->index('is_sent');
+            $table->index('updated_at');
+            $table->index('created_at');
             $table->timestamps();
         });
     }

@@ -22,35 +22,57 @@ class OrderSeeder extends Seeder
         $users = User::all();
         $productsCollection = Product::whereNotNull('price')->get();
 
-        foreach ($users as $index => $user) {
-            $orderCount = rand(1,5);
+        for ($j=0; $j < 1000; $j++) {
 
-            for ($i=0; $i < $orderCount; $i++) { 
-                $itemCount = rand(1,3);
+            $date = $faker->dateTimeBetween('-3 month', 'now');
 
-                $order = $user->orders()->create();
+            $user = $users->random();
 
-                $totalPrice = 0;
+            $itemCount = rand(1,3);
 
-                for ($j=0; $j < $itemCount; $j++) { 
-                    $products = $productsCollection->random($itemCount);
+            $order = $user->orders()->create();
 
-                    foreach ($products as $product ) {
-                        $quantity = rand(1,3);
-                        $order->products()->attach($product->id, [
-                            'quantity' => $quantity,
-                        ]);
-    
-                        $totalPrice = $totalPrice + ($product->price * $quantity);
-                    }
+            $totalPrice = 0;
 
+            for ($k=0; $k < $itemCount; $k++) { 
+                $products = $productsCollection->random($itemCount)->unique('id');
+
+                foreach ($products as $product ) {
+                    $quantity = rand(1,3);
+                    $product->orders()->attach($order->id, [
+                        'quantity' => $quantity,
+                    ]);
+
+                    $totalPrice = $totalPrice + ($product->price * $quantity);
                 }
 
-                $order->update([
-                    'total' => $totalPrice,
-                ]);
+                $products =null;
 
             }
+
+            $isDone = rand(0,1);
+            $isCanceled = rand(0,1);
+
+            if ($isDone == 1) {
+                $order->update([
+                    'done' => $date,
+                    'is_paid' => $date,
+                    'in_process' => $date,
+                ]);
+            } else 
+            if ($isCanceled == 1) {
+                $order->update([
+                    'canceled' => $date,
+                ]);
+            }
+            
+
+            $order->update([
+                'total' => $totalPrice,
+                'created_at' => $date,
+                'updated_at' => $date,
+            ]);
+
         }
 
     }

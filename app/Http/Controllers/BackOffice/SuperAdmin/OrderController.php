@@ -18,14 +18,29 @@ class OrderController extends Controller
         return view('back-office.super-admin.order.index');
     }
 
+    public function updateTotal(Order $order)
+    {
+        $total = $order->products->sum(function ($product){
+            return $product->price * $product->pivot->quantity;
+        });
+
+        $order->update([
+            'total' => $total,
+        ]);
+
+        return redirect()->back()->with('success-message', 'Success Recalculate Total Payment Order');
+    }
+
     public function paid(Order $order)
     {
-        if ($order->done == 1 || $order->canceled == 1) {
+        if (!$order->done == null || !$order->canceled == null) {
             return redirect()->back();
         }
 
+        $this->updateTotal($order);
+
         $order->update([
-            'is_paid' => 1,
+            'is_paid' => now(),
         ]);
 
         return redirect()->back()->with('success-message', 'Success Update Payment Status to Paid');
@@ -33,12 +48,12 @@ class OrderController extends Controller
 
     public function unpaid(Order $order)
     {
-        if ($order->done == 1 || $order->canceled == 1) {
+        if (!$order->done == null || !$order->canceled == null) {
             return redirect()->back();
         }
 
         $order->update([
-            'is_paid' => 0,
+            'is_paid' => null,
         ]);
 
         return redirect()->back()->with('success-message', 'Success Update Payment Status to UnPaid');
@@ -46,12 +61,12 @@ class OrderController extends Controller
 
     public function onProcess(Order $order)
     {
-        if ($order->done == 1 || $order->canceled == 1) {
+        if (!$order->done == null || !$order->canceled == null) {
             return redirect()->back();
         }
 
         $order->update([
-            'in_process' => 1,
+            'in_process' => now(),
         ]);
 
         return redirect()->back()->with('success-message', 'Success Update On Work Status to Working');
@@ -59,12 +74,12 @@ class OrderController extends Controller
 
     public function offProcess(Order $order)
     {
-        if ($order->done == 1 || $order->canceled == 1) {
+        if (!$order->done == null || !$order->canceled == null) {
             return redirect()->back();
         }
 
         $order->update([
-            'in_process' => 0,
+            'in_process' => null,
         ]);
 
         return redirect()->back()->with('success-message', 'Success Update On Work Status to Not Yet');
@@ -73,8 +88,10 @@ class OrderController extends Controller
     public function done(Order $order)
     {
         $order->update([
-            'done' => 1,
+            'done' => now(),
         ]);
+
+        $this->updateTotal($order);
 
         return redirect()->back()->with('success-message', 'This Order Is DONE, Conglaturaions');
     }
@@ -82,7 +99,7 @@ class OrderController extends Controller
     public function cancel(Order $order)
     {
         $order->update([
-            'canceled' => 1,
+            'canceled' => now(),
         ]);
 
         return redirect()->back()->with('success-message', 'This Order Is Canceled');
@@ -91,7 +108,7 @@ class OrderController extends Controller
     public function unCancel(Order $order)
     {
         $order->update([
-            'canceled' => 0,
+            'canceled' => null,
         ]);
 
         return redirect()->back()->with('success-message', 'This Order Is Un-Canceled');
@@ -101,7 +118,7 @@ class OrderController extends Controller
     {
         // dd($order->id);
         $order->update([
-            'done' => 0,
+            'done' => null,
         ]);
 
         return redirect()->back()->with('success-message', 'This Order Is Un-Done');

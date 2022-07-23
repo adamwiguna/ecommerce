@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Product;
+namespace App\Http\Livewire\BackOffice\Product;
 
 use App\Models\Product;
 use Livewire\Component;
@@ -38,7 +38,7 @@ class Index extends Component
         // dd($products);
         // $products = $products->load(['sizes', 'categories', 'images']);
 
-        return view('livewire.product.index', [
+        return view('livewire.back-office.product.index', [
             'products' => $products,
         ]);
     }

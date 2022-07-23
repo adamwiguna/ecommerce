@@ -40,7 +40,7 @@ class CartSeeder extends Seeder
                 $count = rand(1,10);
                 $customer->carts()->create([
                     'product_id' => $product->id,
-                    'total' => $count,
+                    'quantity' => $count,
                 ]);
             }
         }

@@ -21,8 +21,6 @@ return new class extends Migration
             
             $table->index('category_id', 'name');
         });
-        // Schema::table('categories',function (Blsueprint $table){
-    // });
     }
 
     /**
