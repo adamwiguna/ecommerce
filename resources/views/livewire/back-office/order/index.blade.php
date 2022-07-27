@@ -2,9 +2,12 @@
     <div class="card">
         <div class="card-header">
           <h4>List Unpaid Order</h4>
+          
+          @if (request()->routeIs('back-office.super-admin.order.index'))
           <div class="card-header-action">
-            <a href="{{ route('back-office.super-admin.product.create') }}" type="button" class="btn btn-sm btn-primary" ><i class="fas fa-file-export"></i> Export</a>
+            <a href="{{ route('back-office.super-admin.order.export') }}" type="button" class="btn btn-sm btn-primary" ><i class="fas fa-file-export"></i> Export</a>
           </div>
+          @endif
         </div>
         <div class="card-body">
           <div class="table-responsive">

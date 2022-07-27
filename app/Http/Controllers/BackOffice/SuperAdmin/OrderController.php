@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\BackOffice\SuperAdmin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Exports\OrdersExport;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -132,6 +134,11 @@ class OrderController extends Controller
     public function create()
     {
         //
+    }
+
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 
     /**

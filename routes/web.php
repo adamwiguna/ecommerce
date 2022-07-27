@@ -52,6 +52,9 @@ Route::prefix('back-office')->name('back-office.')->group(function () {
            Route::put('cancel/{order}', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'unCancel'])->name('uncancel');
            Route::get('done', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'index'])->name('done');
            Route::put('done/{order}', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'unDone'])->name('undone');
+
+           Route::get('export/', [App\Http\Controllers\BackOffice\SuperAdmin\OrderController::class, 'export'])->name('export');
+
            
        });
 
