@@ -20,10 +20,13 @@
               <li class="{{ request()->routeIs('back-office.super-admin.order.cancel')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.order.cancel') }}">Cancel ({{ \App\Models\Order::whereNotNull('canceled')->count() }})</a></li>
             </ul>
           </li>
+          <li class="menu-header">Website Manager</li>
+          <li class="{{ request()->routeIs('back-office.super-admin.slider.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.slider.index') }}"><i class="fas fa-image"></i> <span>Slider</span></a></li>
+          {{-- <li class="{{ request()->routeIs('back-office.super-admin.best-seller.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.best-seller.product.index') }}"><i class="fas fa-sitemap"></i><span>Best Seller</span></a></li>
+          <li class="{{ request()->routeIs('back-office.super-admin.new-arrival.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.new-arrival.product.index') }}"><i class="fas fa-sitemap"></i><span>New Arrival</span></a></li> --}}
           <li class="menu-header">Master-Data</li>
           <li class="{{ request()->routeIs('back-office.super-admin.category.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.category.index') }}"><i class="fas fa-sitemap"></i><span>Category</span></a></li>
           <li class="{{ request()->routeIs('back-office.super-admin.product.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.product.index') }}"><i class="fas fa-chess-knight"></i> <span>Product</span></a></li>
-          <li class="{{ request()->routeIs('back-office.super-admin.slider.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.slider.index') }}"><i class="fas fa-image"></i> <span>Slider</span></a></li>
           <li class="{{ request()->routeIs('back-office.super-admin.customer.*')?'active':'' }}"><a class="nav-link" href="{{ route('back-office.super-admin.customer.index') }}"><i class="fas fa-coins"></i> <span>Customer</span></a></li>
           <li><a class="nav-link" href="layout-top-navigation.html"><i class="fas fa-users"></i></i><span>User</span></a></li>
                   

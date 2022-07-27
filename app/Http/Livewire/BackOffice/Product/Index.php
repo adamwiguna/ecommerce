@@ -13,6 +13,9 @@ class Index extends Component
     
     public $search;
 
+    public $isBestSeller = false;
+    public $isNewArrival = false;
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -34,6 +37,13 @@ class Index extends Component
                      });
         }
 
+        if ($this->isBestSeller === true) {
+           $products = $products->where('is_best_seller', 1);
+        }
+        if ($this->isNewArrival === true) {
+           $products = $products->where('is_new_arrival', 1);
+        }
+
         $products = $products->latest()->paginate();
         // dd($products);
         // $products = $products->load(['sizes', 'categories', 'images']);
@@ -42,4 +52,42 @@ class Index extends Component
             'products' => $products,
         ]);
     }
+
+    public function isBestSeller(Product $product)
+    {
+        if (!auth()->user()->is_super_admin ) {
+            abort(403);
+        }
+    
+        if ($product->is_best_seller == 1) {
+            $product->update([
+                'is_best_seller' => 0
+            ]);
+        } else {
+            $product->update([
+                'is_best_seller' => 1
+            ]);
+        }
+        
+        session()->flash('success-message', 'Succes to add best seller Product');
+    }
+    public function isNewArrival(Product $product)
+    {
+        if (!auth()->user()->is_super_admin ) {
+            abort(403);
+        }
+    
+        if ($product->is_new_arrival == 1) {
+            $product->update([
+                'is_new_arrival' => 0
+            ]);
+        } else {
+            $product->update([
+                'is_new_arrival' => 1
+            ]);
+        }
+        
+        session()->flash('success-message', 'Succes to add best seller Product');
+    }
+
 }

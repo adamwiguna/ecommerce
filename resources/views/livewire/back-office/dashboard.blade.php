@@ -109,8 +109,9 @@
             <div class="card-body" id="top-5-scroll">
                 <ul class="list-unstyled list-unstyled-border">
                 @foreach ($products as $product)
+                {{-- @dd($product->parent->images) --}}
                 <li class="media">
-                    <img class="mr-3 rounded" width="55" src="/assets/img/products/product-3-50.png" alt="product">
+                    <img class="mr-3 rounded" width="55" src="{{ $product->parent->images->first()->url }}" alt="product">
                     <div class="media-body">
                     <div class="float-right"><div class="font-weight-600 text-muted text-small">{{ $product->orders_sum_order_productquantity }} Sales</div></div>
                     <div class="media-title">{{ $product->parent->name }}</div>

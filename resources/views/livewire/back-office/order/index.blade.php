@@ -2,6 +2,9 @@
     <div class="card">
         <div class="card-header">
           <h4>List Unpaid Order</h4>
+          <div class="card-header-action">
+            <a href="{{ route('back-office.super-admin.product.create') }}" type="button" class="btn btn-sm btn-primary" ><i class="fas fa-file-export"></i> Export</a>
+          </div>
         </div>
         <div class="card-body">
           <div class="table-responsive">

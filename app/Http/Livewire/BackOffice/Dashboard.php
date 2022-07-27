@@ -70,7 +70,7 @@ class Dashboard extends Component
     {
         
        $products = Product::withSum('orders', 'order_product.quantity')->with(['parent', 'images'])->orderBy('orders_sum_order_productquantity', 'desc')->take(5)->get();
-        // dd($products);
+        // dd($products->first()->images);
        return view('livewire.back-office.dashboard', [
             'orders' => Order::whereNull(['done', 'canceled'])->latest()->take(5)->get(),
             'products' => $products,

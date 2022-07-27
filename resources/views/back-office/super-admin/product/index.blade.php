@@ -15,18 +15,7 @@
   <div class="section-body">
     <h2 class="section-title">Product Page</h2>
     <p class="section-lead">This page showing all Product  </p>
-    @if (session()->has('success-message'))
-        <div class="alert alert-success alert-dismissible show fade alert-has-icon">
-            <div class="alert-icon"><i class="fas fa-check"></i></div>
-            <div class="alert-body">
-                <div class="alert-title">Success</div>
-                {{ session('message') }} 
-                <button class="close" data-dismiss="alert">
-                <span>&times;</span>
-                </button>
-            </div>
-        </div>
-    @endif
+   
     @livewire('back-office.product.index')
   
   </div>

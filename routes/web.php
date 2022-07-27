@@ -31,6 +31,11 @@ Route::prefix('back-office')->name('back-office.')->group(function () {
        Route::get('product/{product}/manage-image', [App\Http\Controllers\BackOffice\SuperAdmin\ProductController::class, 'manageImage'])->name('product.manage-image');
        Route::post('product/{product}/manage-image', [App\Http\Controllers\BackOffice\SuperAdmin\ProductController::class, 'storeImage'])->name('product.store-image');
        Route::delete('product/{image}/manage-image', [App\Http\Controllers\BackOffice\SuperAdmin\ProductController::class, 'deleteImage'])->name('product.delete-image');
+
+       Route::get('best-seller/product', [App\Http\Controllers\BackOffice\SuperAdmin\BestSellerController::class, 'index'])->name('best-seller.product.index');
+       Route::post('best-seller/product', [App\Http\Controllers\BackOffice\SuperAdmin\ProductController::class, 'index'])->name('best-seller.product.store');
+       Route::get('new-arrival/product', [App\Http\Controllers\BackOffice\SuperAdmin\ProductController::class, 'index'])->name('new-arrival.product.index');
+       Route::post('new-arrival/product', [App\Http\Controllers\BackOffice\SuperAdmin\ProductController::class, 'index'])->name('new-arrival.product.store');
        
        Route::resource('customer', App\Http\Controllers\BackOffice\SuperAdmin\CustomerController::class);
        Route::prefix('order')->name('order.')->group(function () {
