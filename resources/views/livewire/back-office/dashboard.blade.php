@@ -9,7 +9,7 @@
                     <ul class="dropdown-menu dropdown-menu-sm">
                     <li class="dropdown-title">Select Month</li>
                     @foreach ($monthLables as $index => $month)
-                    <li wire:click="selectMonth('{{ $index }}'')" ><button wire:click="selectMonth({{ $index }})" class="dropdown-item">{{ $month }}</button></li>
+                    <li wire:click="$emit('selectMonth', {{ $month }})" ><button wire:click="$emit('selectMonth', {{ $index }})" class="dropdown-item">{{ $month }}</button></li>
                         
                     @endforeach
                     </ul>
@@ -45,7 +45,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
             <div class="card card-statistic-2">
-            <div class="card-chart">
+            <div class="card-chart" wire:ignore>
                 <canvas id="balance-chart-1" height="80"></canvas>
             </div>
             <div class="card-icon shadow-primary bg-primary ">
@@ -63,7 +63,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
             <div class="card card-statistic-2">
-            <div class="card-chart">
+            <div class="card-chart" wire:ignore>
                 <canvas id="sales-chart-1" height="80"></canvas>
             </div>
             <div class="card-icon shadow-primary bg-primary ">
@@ -281,18 +281,6 @@
                         pointBackgroundColor: 'transparent',
                         pointHoverBackgroundColor: 'rgba(63,82,227,.8)',
                     },
-                    // {
-                    //     label: 'Budget',
-                    //     data: [2207, 3403, 2200, 5025, 2302, 4208, 3880, 4880],
-                    //     borderWidth: 2,
-                    //     backgroundColor: 'rgba(254,86,83,.7)',
-                    //     borderWidth: 0,
-                    //     borderColor: 'transparent',
-                    //     pointBorderWidth: 0 ,
-                    //     pointRadius: 3.5,
-                    //     pointBackgroundColor: 'transparent',
-                    //     pointHoverBackgroundColor: 'rgba(254,86,83,.8)',
-                    // }
                 ]
             },
             options: {
@@ -323,140 +311,153 @@
                 },
             }
             });
-    
+
+
             var balance_chart = document.getElementById("balance-chart-1").getContext('2d');
     
             var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
             balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
             balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
-    
-            var myChart = new Chart(balance_chart, {
-            type: 'line',
-            data: {
-                labels: ['16-07-2022', '17-07-2022', '18-07-2022', '19-07-2022', '20-07-2022', '21-07-2022', '22-07-2022', '23-07-2022', '24-07-2022', '25-07-2022', '26-07-2022', '27-07-2022', '28-07-2022', '29-07-2022', '30-07-2022', '31-07-2022'],
-                datasets: [{
-                label: 'Balance',
-                data: [50, 61, 80, 50, 72, 52, 60, 41, 30, 45, 70, 40, 93, 63, 50, 62],
-                backgroundColor: balance_chart_bg_color,
-                borderWidth: 3,
-                borderColor: 'rgba(63,82,227,1)',
-                pointBorderWidth: 0,
-                pointBorderColor: 'transparent',
-                pointRadius: 3,
-                pointBackgroundColor: 'transparent',
-                pointHoverBackgroundColor: 'rgba(63,82,227,1)',
-                }]
-            },
-            options: {
-                layout: {
-                padding: {
-                    bottom: -1,
-                    left: -1
+            
+            console.log()
+            var incomeChart = new Chart(balance_chart, {
+                type: 'line',
+                data: {
+                    // labels: label_daily,
+                    labels: @js($ordersStatistic[$selectedMonth]['label_daily']),
+                    // labels: ['16-07-2022', '17-07-2022', '18-07-2022', '19-07-2022', '20-07-2022', '21-07-2022', '22-07-2022', '23-07-2022', '24-07-2022', '25-07-2022', '26-07-2022', '27-07-2022', '28-07-2022', '29-07-2022', '30-07-2022', '31-07-2022'],
+                    datasets: [{
+                        label: 'Balance',
+                        // data: income_daily,
+                        data: @js(array_values($ordersStatistic[$selectedMonth]['income_daily'])),
+                        // data: [50, 61, 80, 50, 72, 52, 60, 41, 30, 45, 70, 40, 93, 63, 50, 62],
+                        backgroundColor: balance_chart_bg_color,
+                        borderWidth: 3,
+                        borderColor: 'rgba(63,82,227,1)',
+                        pointBorderWidth: 0,
+                        pointBorderColor: 'transparent',
+                        pointRadius: 3,
+                        pointBackgroundColor: 'transparent',
+                        pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+                    }]
+                },
+                options: {
+                    layout: {
+                    padding: {
+                        bottom: -1,
+                        left: -1
+                    }
+                    },
+                    legend: {
+                    display: false
+                    },
+                    scales: {
+                    yAxes: [{
+                        gridLines: {
+                        display: false,
+                        drawBorder: false,
+                        },
+                        ticks: {
+                        beginAtZero: true,
+                        display: false
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                        drawBorder: false,
+                        display: false,
+                        },
+                        ticks: {
+                        display: false
+                        }
+                    }]
+                    },
                 }
-                },
-                legend: {
-                display: false
-                },
-                scales: {
-                yAxes: [{
-                    gridLines: {
-                    display: false,
-                    drawBorder: false,
-                    },
-                    ticks: {
-                    beginAtZero: true,
-                    display: false
-                    }
-                }],
-                xAxes: [{
-                    gridLines: {
-                    drawBorder: false,
-                    display: false,
-                    },
-                    ticks: {
-                    display: false
-                    }
-                }]
-                },
-            }
             });
-    
+        
             var sales_chart = document.getElementById("sales-chart-1").getContext('2d');
     
             var sales_chart_bg_color = sales_chart.createLinearGradient(0, 0, 0, 80);
             balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
             balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
     
-            var myChart = new Chart(sales_chart, {
-            type: 'line',
-            data: {
-                labels: ['16-07-2022', '17-07-2022', '18-07-2022', '19-07-2022', '20-07-2022', '21-07-2022', '22-07-2022', '23-07-2022', '24-07-2022', '25-07-2022', '26-07-2022', '27-07-2022', '28-07-2022', '29-07-2022', '30-07-2022', '31-07-2022'],
-                datasets: [{
-                label: 'Sales',
-                data: [70, 62, 44, 40, 21, 63, 82, 52, 50, 31, 70, 50, 91, 63, 51, 60],
-                borderWidth: 2,
-                backgroundColor: balance_chart_bg_color,
-                borderWidth: 3,
-                borderColor: 'rgba(63,82,227,1)',
-                pointBorderWidth: 0,
-                pointBorderColor: 'transparent',
-                pointRadius: 3,
-                pointBackgroundColor: 'transparent',
-                pointHoverBackgroundColor: 'rgba(63,82,227,1)',
-                }]
-            },
-            options: {
-                layout: {
-                padding: {
-                    bottom: -1,
-                    left: -1
+            var salesChart = new Chart(sales_chart, {
+                type: 'line',
+                data: {
+                    labels: @js($ordersStatistic[$selectedMonth]['label_daily']??null),
+                    datasets: [{
+                        label: 'Sales',
+                        data: @js(array_values($ordersStatistic[$selectedMonth]['sales_daily'])??null),
+                        borderWidth: 2,
+                        backgroundColor: balance_chart_bg_color,
+                        borderWidth: 3,
+                        borderColor: 'rgba(63,82,227,1)',
+                        pointBorderWidth: 0,
+                        pointBorderColor: 'transparent',
+                        pointRadius: 3,
+                        pointBackgroundColor: 'transparent',
+                        pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+                    }]
+                },
+                options: {
+                    layout: {
+                        padding: {
+                            bottom: -1,
+                            left: -1
+                        }
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                            display: false,
+                            drawBorder: false,
+                            },
+                            ticks: {
+                            beginAtZero: true,
+                            display: false
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                            drawBorder: false,
+                            display: false,
+                            },
+                            ticks: {
+                            display: false
+                            }
+                        }]
+                    },
                 }
-                },
-                legend: {
-                display: false
-                },
-                scales: {
-                yAxes: [{
-                    gridLines: {
-                    display: false,
-                    drawBorder: false,
-                    },
-                    ticks: {
-                    beginAtZero: true,
-                    display: false
-                    }
-                }],
-                xAxes: [{
-                    gridLines: {
-                    drawBorder: false,
-                    display: false,
-                    },
-                    ticks: {
-                    display: false
-                    }
-                }]
-                },
-            }
             });
     
-            $("#products-carousel").owlCarousel({
-            items: 3,
-            margin: 10,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            loop: true,
-            responsive: {
-                0: {
-                items: 2
-                },
-                768: {
-                items: 2
-                },
-                1200: {
-                items: 3
-                }
-            }
-            });
+
+            var monthLables = {!! json_encode($monthLables) !!};
+            var ordersStatistic = {!! json_encode($ordersStatistic) !!};
+            Livewire.on('selectMonth', selectedMonth => {
+    
+                console.log(selectedMonth)
+    
+                var selectMonth = monthLables[selectedMonth];
+    
+                
+                
+                var label_daily = ordersStatistic[selectMonth]['label_daily']
+                var income_daily = ordersStatistic[selectMonth]['income_daily']
+                var sales_daily = ordersStatistic[selectMonth]['sales_daily']
+    
+                incomeChart.data.labels = label_daily,
+                incomeChart.data.datasets[0].data = income_daily,
+                incomeChart.update()
+
+                salesChart.data.labels = label_daily,
+                salesChart.data.datasets[0].data = sales_daily,
+                salesChart.update()
+            
+        
+            })
         })
 
     </script>
