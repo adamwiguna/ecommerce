@@ -1,31 +1,44 @@
 <div>
-    <div class="row">
+    <div class="row" wire:init="loadOrderStatistic">
         <div class="col-lg-4 col-md-4 col-sm-12">
             <div class="card card-statistic-2">
-            <div class="card-stats">
+            <div class="card-stats">                
                 <div class="card-stats-title">Order Statistics -
-                <div class="dropdown d-inline">
-                    <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#" id="orders-month">{{ $selectedMonth }}</a>
-                    <ul class="dropdown-menu dropdown-menu-sm">
-                    <li class="dropdown-title">Select Month</li>
-                    @foreach ($monthLables as $index => $month)
-                    <li wire:click="$emit('selectMonth', {{ $month }})" ><button wire:click="$emit('selectMonth', {{ $index }})" class="dropdown-item">{{ $month }}</button></li>
-                        
-                    @endforeach
-                    </ul>
+                    <div class="dropdown d-inline" >
+                        <div wire:loading class="spinner-grow spinner-grow-sm text-dark" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <a wire:loading.remove class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#" id="orders-month">{{ $selectedMonth }}</a>
+                        <ul class="dropdown-menu dropdown-menu-sm">
+                        <li class="dropdown-title">Select Month</li>
+                        @foreach ($monthLables as $index => $month)
+                        <li wire:click="$emit('selectMonth', {{ $month }})" ><button wire:click="$emit('selectMonth', {{ $index }})" class="dropdown-item">{{ $month }}</button></li>
+                            
+                        @endforeach
+                        </ul>
+                    </div>
+                    
                 </div>
-                </div>
-                <div class="card-stats-items">
+                <div class="card-stats-items" >
                 <div class="card-stats-item">
-                    <div class="card-stats-item-count">{{ $ordersStatistic[$selectedMonth]['unpaid'] }}</div>
+                    <div wire:loading class="spinner-border text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    <div class="card-stats-item-count" wire:loading.remove>{{ $ordersStatistic[$selectedMonth]['unpaid']??0 }}</div>
                     <div class="card-stats-item-label">Unpaid</div>
                 </div>
                 <div class="card-stats-item">
-                    <div class="card-stats-item-count">{{ $ordersStatistic[$selectedMonth]['done'] }}</div>
+                    <div wire:loading class="spinner-border text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    <div class="card-stats-item-count" wire:loading.remove>{{ $ordersStatistic[$selectedMonth]['done']??0 }}</div>
                     <div class="card-stats-item-label">Done</div>
                 </div>
                 <div class="card-stats-item">
-                    <div class="card-stats-item-count">{{ $ordersStatistic[$selectedMonth]['canceled'] }}</div>
+                  <div wire:loading class="spinner-border text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    <div class="card-stats-item-count" wire:loading.remove>{{ $ordersStatistic[$selectedMonth]['canceled']??0 }}</div>
                     <div class="card-stats-item-label">Cancel</div>
                 </div>
                 </div>
@@ -38,7 +51,12 @@
                 <h4>Total Orders</h4>
                 </div>
                 <div class="card-body">
-                    {{ $ordersStatistic[$selectedMonth]['total'] }}
+                  <div wire:loading class="spinner-border text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    <div wire:loading.remove>
+                    {{ $ordersStatistic[$selectedMonth]['total']??0 }}
+                    </div>
                 </div>
             </div>
             </div>
@@ -56,7 +74,12 @@
                 <h4>Income</h4>
                 </div>
                 <div class="card-body">
-                $ {{ $ordersStatistic[$selectedMonth]['income'] }}
+                  <div wire:loading class="spinner-border text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    <div wire:loading.remove>
+                        $ {{ $ordersStatistic[$selectedMonth]['income']??0 }}
+                    </div>
                 </div>
             </div>
             </div>
@@ -74,7 +97,12 @@
                 <h4>Sales</h4>
                 </div>
                 <div class="card-body">
-                    {{ $ordersStatistic[$selectedMonth]['sales'] }}
+                  <div wire:loading class="spinner-border text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    <div wire:loading.remove>
+                        {{ $ordersStatistic[$selectedMonth]['sales']??0 }}
+                    </div>
                 </div>
             </div>
             </div>
@@ -92,7 +120,7 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card gradient-bottom" wire:ignore>
+            <div class="card gradient-bottom" >
             <div class="card-header">
                 <h4>Top 5 Products</h4>
                 <div class="card-header-action dropdown">
@@ -107,28 +135,27 @@
                 </div>
             </div>
             <div class="card-body" id="top-5-scroll">
-                <ul class="list-unstyled list-unstyled-border">
-                @foreach ($products as $product)
-                {{-- @dd($product->parent->images) --}}
-                <li class="media">
-                    <img class="mr-3 rounded" width="55" src="{{ $product->parent->images->first()->url }}" alt="product">
-                    <div class="media-body">
-                    <div class="float-right"><div class="font-weight-600 text-muted text-small">{{ $product->orders_sum_order_productquantity }} Sales</div></div>
-                    <div class="media-title">{{ $product->parent->name }}</div>
-                    <div class="mt-1">
-                        <div class="budget-price">
-                            <div class="budget-price-label">Size : {{ $product->size }}</div>
-                        </div>
-                    </div>
-                    <div class="mt-1">
-                        <div class="budget-price">
-                            <div class="budget-price-square bg-primary" data-width="64%"></div>
-                            <div class="budget-price-label">${{ $product->orders_sum_order_productquantity * $product->price }}</div>
-                        </div>
-                    </div>
-                    </div>
-                </li>
-                @endforeach               
+                <ul   class="list-unstyled list-unstyled-border">
+                    @foreach ($products as $product)
+                        <li class="media" wire:key="product-{{ time().$product->id }}">
+                            <img class="mr-3 rounded" width="55" src="{{ $product->parent->images->first()->url }}" alt="product">
+                            <div class="media-body">
+                            <div class="float-right"><div class="font-weight-600 text-muted text-small">{{ $product->orders_sum_order_productquantity }} Sales</div></div>
+                            <div class="media-title">{{ $product->parent->name }}</div>
+                            <div class="mt-1">
+                                <div class="budget-price">
+                                    <div class="budget-price-label">Size : {{ $product->size }}</div>
+                                </div>
+                            </div>
+                            <div class="mt-1">
+                                <div class="budget-price">
+                                    <div class="budget-price-square bg-primary" data-width="64%"></div>
+                                    <div class="budget-price-label">${{ $product->orders_sum_order_productquantity * $product->price }}</div>
+                                </div>
+                            </div>
+                            </div>
+                        </li>
+                    @endforeach               
                 </ul>
             </div>
             <div class="card-footer pt-3 d-flex justify-content-center">
@@ -159,8 +186,9 @@
                         <th>On Work</th>
                         <th>Action</th>
                     </tr>
-                    @foreach ($orders as $order)
-                    <tr>
+                    @foreach ($lastOrders as $order)
+                    {{-- @dd($order) --}}
+                    <tr wire:key="order-{{ $order->id }}">
                         <td>{{ $order->id }}</td>
                         <td class="font-weight-600">
                             {{ $order->user->name }} <br>
@@ -259,19 +287,22 @@
         </div>
     </div>
 
+  
     <script>
-        document.addEventListener('livewire:load', function () {
-            
+        document.addEventListener("livewire:load", function () {
+
             "use strict";
-    
+            // console.log(@this.sales);
+            var sales = @this.sales
             var ctx = document.getElementById("myChart").getContext('2d');
             var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: @js(array_reverse($monthLables, false)),
                 datasets: [{
-                        label: 'Sales',
-                        data: @js($sales),
+                        label: 'Income',
+                        // data: @js($sales),
+                        data: sales,
                         borderWidth: 2,
                         backgroundColor: 'rgba(63,82,227,.8)',
                         borderWidth: 0,
@@ -323,14 +354,12 @@
             var incomeChart = new Chart(balance_chart, {
                 type: 'line',
                 data: {
-                    // labels: label_daily,
-                    labels: @js($ordersStatistic[$selectedMonth]['label_daily']),
-                    // labels: ['16-07-2022', '17-07-2022', '18-07-2022', '19-07-2022', '20-07-2022', '21-07-2022', '22-07-2022', '23-07-2022', '24-07-2022', '25-07-2022', '26-07-2022', '27-07-2022', '28-07-2022', '29-07-2022', '30-07-2022', '31-07-2022'],
+                    labels: @js($dailyLabels[$selectedMonth])??[],
+                    // labels: [],
                     datasets: [{
-                        label: 'Balance',
-                        // data: income_daily,
-                        data: @js(array_values($ordersStatistic[$selectedMonth]['income_daily'])),
-                        // data: [50, 61, 80, 50, 72, 52, 60, 41, 30, 45, 70, 40, 93, 63, 50, 62],
+                        label: 'Income',
+                        data: @js(array_values($ordersStatistic[$selectedMonth]['income_daily']))??[],
+                        // data: [],
                         backgroundColor: balance_chart_bg_color,
                         borderWidth: 3,
                         borderColor: 'rgba(63,82,227,1)',
@@ -384,7 +413,7 @@
             var salesChart = new Chart(sales_chart, {
                 type: 'line',
                 data: {
-                    labels: @js($ordersStatistic[$selectedMonth]['label_daily']??null),
+                    labels: @js($dailyLabels[$selectedMonth]??null),
                     datasets: [{
                         label: 'Sales',
                         data: @js(array_values($ordersStatistic[$selectedMonth]['sales_daily'])??null),
@@ -434,29 +463,20 @@
             });
     
 
-            var monthLables = {!! json_encode($monthLables) !!};
-            var ordersStatistic = {!! json_encode($ordersStatistic) !!};
-            Livewire.on('selectMonth', selectedMonth => {
-    
-                console.log(selectedMonth)
-    
-                var selectMonth = monthLables[selectedMonth];
-    
-                
-                
-                var label_daily = ordersStatistic[selectMonth]['label_daily']
-                var income_daily = ordersStatistic[selectMonth]['income_daily']
-                var sales_daily = ordersStatistic[selectMonth]['sales_daily']
-    
-                incomeChart.data.labels = label_daily,
-                incomeChart.data.datasets[0].data = income_daily,
+        
+            Livewire.hook('message.processed', (el, component) => { 
+
+                myChart.data.datasets[0].data =  @this.sales,
+                myChart.update()
+
+                salesChart.data.labels = @this.dailyLabels[@this.selectedMonth],
+                salesChart.data.datasets[0].data =  @this.ordersStatistic[@this.selectedMonth]['sales_daily'],
+                salesChart.update()
+
+                incomeChart.data.labels = @this.dailyLabels[@this.selectedMonth],
+                incomeChart.data.datasets[0].data =  @this.ordersStatistic[@this.selectedMonth]['income_daily'],
                 incomeChart.update()
 
-                salesChart.data.labels = label_daily,
-                salesChart.data.datasets[0].data = sales_daily,
-                salesChart.update()
-            
-        
             })
         })
 

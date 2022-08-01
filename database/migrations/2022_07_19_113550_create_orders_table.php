@@ -22,8 +22,10 @@ return new class extends Migration
             $table->dateTime('canceled')->nullable()->default(null);
             $table->dateTime('done')->nullable()->default(null);
 
+            $table->index('id');
             $table->index('done');
             $table->index('canceled');
+            $table->index('done', 'canceled');
             $table->index('user_id');
             $table->index('is_paid');
             $table->index('in_process');

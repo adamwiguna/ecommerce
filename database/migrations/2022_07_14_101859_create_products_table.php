@@ -25,12 +25,16 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
+            $table->index('id');
             $table->index('price');
             $table->index('name');
             $table->index('product_id');
             $table->index('is_best_seller');
             $table->index('is_new_arrival');
             $table->index('created_at', 'updated_at');
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('deleted_at');
         });
     }
 
