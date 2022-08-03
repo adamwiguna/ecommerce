@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\BackOffice;
 
 use Carbon\Carbon;
+use App\Models\Image;
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
@@ -27,6 +28,13 @@ class Dashboard extends Component
     public $dateFormat = 'd-m-Y';
 
     public $readyToLoad = false;
+
+    public $topProducts = [];
+    public $productImages = [];
+
+    public $time = ['week', 'month', 'year', 'all the time'];
+    public $selectTime = 'month';
+
  
     public function loadOrderStatistic()
     {
@@ -75,14 +83,7 @@ class Dashboard extends Component
                             $daySum=0;
                             $this->ordersStatistic[$month]['income_daily'][]= $orders->where('year_and_month', $month)->where('date', $day)->sum('sum_total_price');
                             $this->ordersStatistic[$month]['sales_daily'][]= $orders->where('year_and_month', $month)->where('date', $day)->sum('sum_total_price');
-                            // $this->ordersStatistic[$month]['sales_daily'][] = $thisMonthOrders !== null && $thisMonthOrders->has($day) ? 
-                            //                                                     $thisMonthOrders[$day]->whereNotNull('is_paid')->sum(function ($query) use ($daySum) {
-                            //                                                         $daySum = $daySum + ($query->products()->sum('order_product.quantity'));
-                            //                                                         // $daySum = $daySum + ($query->products()->sum('pivot.quantity'));
-                            //                                                         return $daySum;
-                            //                                                     })
-                            //                                                     : 
-                            //                                                     0;
+                   
                 }
         }  
         // dd($this->dailyLabels);
@@ -90,85 +91,7 @@ class Dashboard extends Component
 
         $this->sales = array_reverse($this->sales, false);
 
-        // dd($this->ordersStatistic);
-        
-        // $thisMonth = Carbon::now();
-        // $fromMonth = Carbon::now()->subMonth($this->periode);
-        // $orders = [];
-        // $orders = Order::
-        //                 latest()
-        //                 ->where('updated_at', '<=', now())
-        //                 // ->with('products')
-        //                 ->where('updated_at' , '>=', $fromMonth->startOfMonth())
-        //                 // ->groupBy(DB::raw("DATE_FORMAT(updated_at, '%m-%Y')"))
-        //                 ->get()
-        //                 ->groupBy(function($query) {
-        //                     $a = Carbon::parse($query->updated_at->toDateTimeString())->format($this->monthFormat);
-        //                     return $a;
-        //                 })
-        //                 ;
-        
-
-        // $period = CarbonPeriod::create(now()->subMonth($this->periode),'1 month', now());
-        // foreach ($period as $date) {
-        //     $monthLables[] =  $date->format($this->monthFormat);
-        //     $dailyPeriod = CarbonPeriod::create(Carbon::create($date)->startOfMonth(), '1 day', Carbon::create($date)->endOfMonth());
-        // }
-        
-        // $this->monthLables = array_reverse($monthLables, false);
-
-        // $this->sales = [];
-        // $this->ordersStatistic = [];
-
-        // foreach($this->monthLables as $month) {
-        //     $this->ordersStatistic[$month]['unpaid'] = count($orders) !== 0 && $orders->has($month) ? $orders[$month]->whereNull('is_paid')->whereNull('canceled')->whereNull('done')->count() : 0;
-        //     $this->ordersStatistic[$month]['process'] = count($orders) !== 0 && $orders->has($month) ? $orders[$month]->whereNull('on_process')->whereNull('canceled')->count() : 0;
-        //     $this->ordersStatistic[$month]['done'] = count($orders) !== 0 && $orders->has($month) ? $orders[$month]->whereNotNull('done')->count() : 0;
-        //     $this->ordersStatistic[$month]['canceled'] = count($orders) !== 0 && $orders->has($month) ? $orders[$month]->whereNotNull('canceled')->count() : 0;
-        //     $this->ordersStatistic[$month]['total'] = count($orders) !== 0 && $orders->has($month) ? $orders[$month]->count() : 0;
-        //     $this->ordersStatistic[$month]['income'] = count($orders) !== 0 && $orders->has($month) ? $orders[$month]->whereNotNull('done')->sum('total') : 0;
-        //     $sum = 0;
-        //     $this->ordersStatistic[$month]['sales'] = count($orders) !== 0 && $orders->has($month) ? 
-        //                                                             $orders[$month]->whereNotNull('is_paid')->sum(function ($query) use ($sum) {
-        //                                                                 $sum = $sum + ($query->products()->sum('order_product.quantity'));
-        //                                                                 return $sum;
-        //                                                             })
-        //                                                             : 
-        //                                                             0;
-           
-        //     $this->sales[] = count($orders) !== 0 && $orders->has($month) ? $orders[$month]->whereNotNull('done')->sum('total') : 0;
-
-        //     $thisMonthOrders = 
-        //         count($orders) !== 0 && $orders->has($month) ? $orders[$month]->groupBy(function($query) {
-        //         $a = Carbon::parse($query->updated_at->toDateTimeString())->format($this->dateFormat);
-        //         return $a;
-        //     }) 
-        //     :
-        //      null;
-                                                                    
-            
-        //     $dayLables = [];
-
-        //     foreach ($this->dailyLabels[$month] as $day) {
-        //         $dayLables[] =  $day;
-        //     }
-
-        //     $this->ordersStatistic[$month]['label_daily'] = $dayLables;
-        //     // $this->ordersStatistic[$month] =[];
-        //     foreach ($dayLables as $day) {
-        //         $daySum=0;
-        //         $this->ordersStatistic[$month]['income_daily'][]= $thisMonthOrders !== null && $thisMonthOrders->has($day) ? $thisMonthOrders[$day]->whereNotNull('done')->sum('total') : 0;
-        //         $this->ordersStatistic[$month]['sales_daily'][] = $thisMonthOrders !== null && $thisMonthOrders->has($day) ? 
-        //                                                             $thisMonthOrders[$day]->whereNotNull('is_paid')->sum(function ($query) use ($daySum) {
-        //                                                                 $daySum = $daySum + ($query->products()->sum('order_product.quantity'));
-        //                                                                 // $daySum = $daySum + ($query->products()->sum('pivot.quantity'));
-        //                                                                 return $daySum;
-        //                                                             })
-        //                                                             : 
-        //                                                             0;
-        //                                                         }
-            
-        // }
+    
 
         $this->lastOrders =null;
         // $this->products =null;
@@ -179,13 +102,52 @@ class Dashboard extends Component
 
     public function loadProducts()
     {
+        // $this->productImages = collect([]);
+        foreach ($this->time as $key => $time) {
+           
+            $this->topProducts = [];
+            if ($time !== 'all the time' && $time !== 'year') {
+                $this->topProducts = DB::table('orders')
+                    ->selectRaw('products.price  as price')
+                    ->selectRaw('products.id as id')
+                    ->selectRaw('product_parent.id as parent_id')
+                    ->selectRaw('product_parent.name as parent_name_product')
+                    ->selectRaw('products.size')
+                    ->selectRaw('sum(quantity) as sum_quantity')
+                    ->join('order_product', 'orders.id', 'order_product.order_id')
+                    ->join('products', 'order_product.product_id', 'products.id')
+                    ->join('products as product_parent',  'products.product_id', 'product_parent.id')
+                    ->whereNotNull('done')
+                    ->whereRaw('orders.updated_at < NOW()')
+                    ->whereRaw('orders.updated_at > NOW() - INTERVAL 1 '.$time)
+                    ->groupByRaw('order_product.product_id')
+                    ->orderByRaw('sum_quantity DESC ')
+                    ->take(5)
+                    ->get();
+
+                    foreach ($this->topProducts as $product ) {
+                        $this->productImages[$product->parent_id] =Image::where('imageable_id',  $product->parent_id)->where('imageable_type', 'App\Models\Product')->first()->url;
+                    }
+                    $this->products[$time] = $this->topProducts;
+            }
+                        
+        }
         
+        $this->products = json_decode(json_encode($this->products), true);
     }
 
-    protected $listeners = ['selectMonth' => 'updateMonth'];
+    protected $listeners = [
+        'selectTime' => 'updateTime',
+        'selectMonth' => 'updateMonth',
+    ];
 
     public function mount()
     {
+        
+        $this->products['week'] = [];
+        $this->products['month'] = [];
+        $this->products['year'] = [];
+        $this->products['all the time'] = [];
         $orders = [];        
 
         $period = CarbonPeriod::create(now()->subMonth($this->periode),'1 month', now());
@@ -234,52 +196,65 @@ class Dashboard extends Component
     }
 
     public function render()
-    { 
-        // $orders = DB::table('orders')->where('updated_at', '>=', Carbon::now()->subMonth($this->periode))
-        //                     ->select(
-        //                         // 'done',
-        //                         DB::raw('DATE_FORMAT(updated_at, "%M-%Y") AS year_and_month'), 
-        //                         DB::raw('DATE_FORMAT(updated_at, "%d-%m-%Y") AS date'), 
-        //                         DB::raw('count(*) as orders'), 
-        //                         DB::raw('count(is_paid) as count_paid'), 
-        //                         DB::raw('count(*) - count(is_paid) as count_unpaid'), 
-        //                         DB::raw('count(*) - (count(done) + count(canceled) )as count_process'), 
-        //                         DB::raw('count(done) as count_done'), 
-        //                         DB::raw('count(canceled) as count_canceled'), 
-        //                         DB::raw('sum(case when done is not null then total end) as sum_total_price')
-        //                         // DB::raw('(select sum(total) from orders where is_paid IS NOT NULL ) as sum_total_price')
-        //                         )
-        //                     // ->havingRaw('select sum(total) from orders where is_paid IS NOT NULL ) as sum_total_price')
-        //                     ->groupBy( 
-        //                         // DB::raw('Year(updated_at)'), 
-        //                         // DB::raw('Month(updated_at)'), 
-        //                         DB::raw('date')
-        //                         )
-        //                     ->get();
-        // dd($orders);
-
-        $products = DB::table('orders')
-                        ->selectRaw('product_parent.name as parent_name_product')
-                        ->selectRaw('products.size')
-                        ->selectRaw('sum(quantity) as sum_quantity')
-                        ->join('order_product', 'orders.id', 'order_product.order_id')
-                        ->join('products', 'order_product.product_id', 'products.id')
-                        ->join('products as product_parent',  'products.product_id', 'product_parent.id')
-                        ->whereNotNull('done')
-                        ->whereRaw('orders.updated_at > NOW() - INTERVAL 1 week')
-                        ->groupByRaw('order_product.product_id')
-                        ->orderByRaw('sum_quantity DESC ')
-                        ->take(5)
-                        ->get();
-
-
-        dd($products);
+    {   
         return view('livewire.back-office.dashboard');
     }
 
     public function updateMonth($index)
     {
         $this->selectedMonth = $this->monthLables[$index];
+        // dd($this->topProducts);
+    }
+
+    public function updateTime($t)
+    {
+        // dd($t);
+        $this->selectTime = $this->time[$t];
+        if ($this->selectTime == 'all the time' && count($this->products['all the time']) == 0) {
+            $this->topProducts = DB::table('orders')
+            ->selectRaw('products.price  as price')
+            ->selectRaw('products.id as id')
+            ->selectRaw('product_parent.id as parent_id')
+            ->selectRaw('product_parent.name as parent_name_product')
+            ->selectRaw('products.size')
+            ->selectRaw('sum(quantity) as sum_quantity')
+            ->join('order_product', 'orders.id', 'order_product.order_id')
+            ->join('products', 'order_product.product_id', 'products.id')
+            ->join('products as product_parent',  'products.product_id', 'product_parent.id')
+            ->whereNotNull('done')
+            ->whereRaw('orders.updated_at < NOW()')
+            ->groupByRaw('order_product.product_id')
+            ->orderByRaw('sum_quantity DESC ')
+            ->take(5)
+            ->get();
+            $this->products[$this->selectTime] = json_decode(json_encode($this->topProducts), true);
+            foreach ($this->topProducts as $product ) {
+                $this->productImages[$product->parent_id] =Image::where('imageable_id',  $product->parent_id)->where('imageable_type', 'App\Models\Product')->first()->url;
+            }
+        }
+        if ($this->selectTime == 'year' && count($this->products['year']) === 0) {
+            $this->topProducts = DB::table('orders')
+            ->selectRaw('products.price  as price')
+            ->selectRaw('products.id as id')
+            ->selectRaw('product_parent.id as parent_id')
+            ->selectRaw('product_parent.name as parent_name_product')
+            ->selectRaw('products.size')
+            ->selectRaw('sum(quantity) as sum_quantity')
+            ->join('order_product', 'orders.id', 'order_product.order_id')
+            ->join('products', 'order_product.product_id', 'products.id')
+            ->join('products as product_parent',  'products.product_id', 'product_parent.id')
+            ->whereNotNull('done')
+            ->whereRaw('orders.updated_at < NOW()')
+            ->whereRaw('orders.updated_at > NOW() - INTERVAL 1 year')
+            ->groupByRaw('order_product.product_id')
+            ->orderByRaw('sum_quantity DESC ')
+            ->take(5)
+            ->get();
+            $this->products[$this->selectTime] = json_decode(json_encode($this->topProducts), true);
+            foreach ($this->topProducts as $product ) {
+                $this->productImages[$product->parent_id] =Image::where('imageable_id',  $product->parent_id)->where('imageable_type', 'App\Models\Product')->first()->url;
+            }
+        }
     }
 
 
