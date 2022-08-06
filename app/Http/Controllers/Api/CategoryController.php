@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -15,7 +16,21 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories =  Category::whereNull('category_id')->with('subCategories.subCategories')->get();
+        return response()->json([
+            'message' => 'Success this is list all Category with all child',
+            'data' => CategoryResource::collection($categories),
+        ], 200);
+    }
+
+    public function parent()
+    {
+        // return response()->json('$data', 200);
+        $categories =  Category::whereNull('category_id')->get();
+        return response()->json([
+            'message' => 'Success this is list all Category with all child',
+            'data' => CategoryResource::collection($categories),
+        ], 200);
     }
 
     /**
@@ -37,7 +52,10 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return response()->json([
+            'message' => 'Success',
+            'data' => $category->load('subCategories.subCategories', 'products.sizes', 'subCategories.products.sizes'),
+        ], 200);
     }
 
     /**

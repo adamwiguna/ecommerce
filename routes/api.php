@@ -21,10 +21,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/product/{id}', function ($id) {
-    return new ProductResource(Product::where('id', $id)->where('product_id', null)->first());
-});
+Route::get('/product/{product}', [App\Http\Controllers\Api\ProductController::class, 'show']);
+Route::get('/product', [App\Http\Controllers\Api\ProductController::class, 'index']);
 
+
+Route::get('/category/{id}/product', [App\Http\Controllers\Api\ProductController::class, 'productsInCategory']);
+
+Route::prefix('category')->group(function () {
+   Route::get('/', [App\Http\Controllers\Api\CategoryController::class, 'index']); 
+   Route::get('/parent', [App\Http\Controllers\Api\CategoryController::class, 'parent']); 
+   Route::get('/{category}', [App\Http\Controllers\Api\CategoryController::class, 'show']); 
+});
 
 Route::get('/verify/{keyName}/{KeyEmail}', [App\Http\Controllers\Api\Auth\VerifyEmailController::class, 'verify']); 
 Route::prefix('auth')->group(function () {
@@ -53,6 +60,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 });
 
-Route::get('/category/{id}/product', [ProductController::class, 'productsInCategory']);
 Route::get('/product/best', [ProductController::class, 'best']);
 Route::get('/product/new', [ProductController::class, 'new']);

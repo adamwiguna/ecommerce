@@ -29,13 +29,14 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|max:5',
+            'size_product_id' => 'required|max:5',
+            // 'size_id' => 'required|max:5',
             // 'quantity' => 'required|max:5',
         ]);
 
         // return response()->json($request->quantity, 200);
 
-        $product = Product::find($request->product_id);
+        $product = Product::find($request->size_product_id);
 
         if ($product->product_id == null) {
             return response()->json([
@@ -43,7 +44,7 @@ class CartController extends Controller
             ], 404);
         }
 
-        $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $request->product_id)->first();
+        $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $request->size_product_id)->first();
 
         if ($cart) {
 

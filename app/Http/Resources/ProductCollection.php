@@ -3,10 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Support\Facades\URL;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class SizeResource extends JsonResource
+class ProductCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -17,10 +16,7 @@ class SizeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'price' => $this->price,
-            'size' => $this->size,
-            // 'url_add_to_chart' => URL::to('/').'/',
+            'data' => $this->collection,
         ];
     }
 }

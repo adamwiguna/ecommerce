@@ -7,20 +7,18 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductCollection;
 
 class ProductController extends Controller
 {
     public function productsInCategory($id)
     {
-        // return $id;
-         // Find Products
         $ids = [];
         
         $categories = (Category::with('subCategories.subCategories')->find($id));
         $ids = (collect($categories->subCategories)->pluck('id')->all());
 
         foreach ($categories->subCategories as $subCategory ) {
-            // dd($subCategory);
             $ids = array_merge($ids, collect($subCategory->subCategories)->pluck('id')->all());
         }
         
@@ -28,8 +26,12 @@ class ProductController extends Controller
         $products = Product::whereHas('categories', function ($query) use ($ids){
             $query->whereIn('id', $ids);
         })->paginate();
-        
-        return ProductResource::collection($products);
+    
+        return (new ProductCollection($products))->additional(['meta' => [
+            'message' => 'Success, this is all Product in Category: ',
+            'category_id' => $categories->id,
+            'category_name' => $categories->name,
+        ]]);
     }
 
     /**
@@ -39,7 +41,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::whereNull('product_id')->latest()->paginate(2);
+
+        return (new ProductCollection($products))->additional(['meta' => [
+            'message' => 'This is All Product',
+        ]]);
+
     }
 
     /**
@@ -61,7 +68,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        // return $product;
+        return new ProductResource($product);
     }
 
     /**
