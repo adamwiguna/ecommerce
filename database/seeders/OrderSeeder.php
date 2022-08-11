@@ -22,9 +22,9 @@ class OrderSeeder extends Seeder
         $users = User::all();
         $productsCollection = Product::whereNotNull('price')->get();
 
-        for ($j=0; $j < 1000000; $j++) {
+        for ($j=0; $j < 100; $j++) {
 
-            $date = $faker->dateTimeBetween('-10 year', 'now');
+            $date = $faker->dateTimeBetween('-6 month', 'now');
 
             $user = $users->random();
 
