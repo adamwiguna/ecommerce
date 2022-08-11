@@ -55,17 +55,22 @@ class OrderController extends Controller
 
         $order = auth()->user()->orders()->create();
         $total = 0;
+        $total_quantity = 0;
         foreach ($carts as $key => $cart) {
             $order->products()->attach($order->id, [
                 'product_id' => $cart->product_id,
                 'quantity' => $cart->quantity,
+                'price' => $cart->product->price,
+                'total_price' => $cart->quantity * $cart->product->price,
             ]);
 
             $total = $total + ($cart->quantity * $cart->product->price);
+            $total_quantity = $total_quantity + $cart->quantity;
         }
 
         $order->update([
             'total' => $total,
+            'total_quantity' => $total_quantity,
         ]);
 
         $carts->each->delete();

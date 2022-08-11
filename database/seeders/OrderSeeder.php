@@ -33,6 +33,7 @@ class OrderSeeder extends Seeder
             $order = $user->orders()->create();
 
             $totalPrice = 0;
+            $totalQuantity = 0;
 
             for ($k=0; $k < $itemCount; $k++) { 
                 $products = $productsCollection->random($itemCount)->unique('id');
@@ -41,9 +42,12 @@ class OrderSeeder extends Seeder
                     $quantity = rand(1,3);
                     $product->orders()->attach($order->id, [
                         'quantity' => $quantity,
+                        'product_price' => $product->price,
+                        'total_price' => $product->price * $quantity,
                     ]);
 
                     $totalPrice = $totalPrice + ($product->price * $quantity);
+                    $totalQuantity = $totalQuantity +  $quantity;
                 }
 
                 $products =null;
@@ -69,6 +73,7 @@ class OrderSeeder extends Seeder
 
             $order->update([
                 'total' => $totalPrice,
+                'total_quantity' => $totalQuantity,
                 'created_at' => $date,
                 'updated_at' => $date,
             ]);

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->double('total')->nullable();
+            $table->double('total_quantity')->nullable();
             $table->dateTime('is_paid')->nullable()->default(null);
             $table->dateTime('in_process')->nullable()->default(null);
             $table->dateTime('canceled')->nullable()->default(null);

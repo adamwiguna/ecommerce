@@ -48,21 +48,23 @@ class CartController extends Controller
 
         if ($cart) {
 
+            $quantity = $cart->quantity + $request->quantity??0;
+
             $cart->update([
-                'quantity' => $cart->quantity + $request->quantity,
+                'quantity' => $quantity > $product->parent->minimum_order ? $quantity : $product->parent->minimum_order,
             ]);
 
         } else {
 
-            if ($request->quantity !== null && $request->quantity < $product->minimum_order) {
+            if ($request->quantity !== null && $request->quantity < $product->parent->minimum_order) {
                 return response()->json([
                     'message' => 'Failed add Product to Cart, Minimum order not reached',
                 ], 409);
             }
     
             $cart = auth()->user()->carts()->create([
-                'product_id' => $request->product_id,
-                'quantity' => $request->quantity ?? $product->minimum_order ?? 1,
+                'product_id' => $request->size_product_id,
+                'quantity' => $request->quantity ?? $product->parent->minimum_order ?? 1,
             ]);
     
             

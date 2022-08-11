@@ -49,7 +49,8 @@ class Dashboard extends Component
                                 DB::raw('count(done) as count_done'), 
                                 DB::raw('count(canceled) as count_canceled'), 
                                 // DB::raw('(select sum(total) from orders where done IS NOT NULL ) as sum_total_price')
-                                DB::raw('sum(case when done is not null then total end) as sum_total_price')
+                                DB::raw('sum(case when done is not null then total end) as sum_total_price'),
+                                DB::raw('sum(case when done is not null then total_quantity end) as sum_total_quantity'),
                                 // DB::raw('(SELECT sum(total) FROM `orders` where done = "2022-07-30 03:38:01" ) as sum_total_price')
                                 // DB::raw('sum(total)  as sum_total_price')
                                 )
@@ -68,21 +69,14 @@ class Dashboard extends Component
                 $this->ordersStatistic[$month]['canceled'] = $orders->where('year_and_month', $month)->sum('count_canceled');
                 $this->ordersStatistic[$month]['total'] = $orders->where('year_and_month', $month)->sum('orders');
                 $this->ordersStatistic[$month]['income'] = $orders->where('year_and_month', $month)->sum('sum_total_price');
-                $sum = 0;
-                // $this->ordersStatistic[$month]['sales'] = count($orders) !== 0 && $orders->has($month) ? 
-                //                                                         $orders[$month]->whereNotNull('is_paid')->sum(function ($query) use ($sum) {
-                //                                                             $sum = $sum + ($query->products()->sum('order_product.quantity'));
-                //                                                             return $sum;
-                //                                                         })
-                //                                                         : 
-                //                                                         0;
+                $this->ordersStatistic[$month]['sales'] = $orders->where('year_and_month', $month)->sum('sum_total_quantity');
                 
                 $this->sales[] = $orders->where('year_and_month', $month)->sum('sum_total_price');
 
                 foreach ($this->dailyLabels[$month] as $day) {
                             $daySum=0;
                             $this->ordersStatistic[$month]['income_daily'][]= $orders->where('year_and_month', $month)->where('date', $day)->sum('sum_total_price');
-                            $this->ordersStatistic[$month]['sales_daily'][]= $orders->where('year_and_month', $month)->where('date', $day)->sum('sum_total_price');
+                            $this->ordersStatistic[$month]['sales_daily'][]= $orders->where('year_and_month', $month)->where('date', $day)->sum('sum_total_quantity');
                    
                 }
         }  
@@ -94,9 +88,7 @@ class Dashboard extends Component
     
 
         $this->lastOrders =null;
-        // $this->products =null;
         $this->lastOrders = Order::whereNull(['done', 'canceled'])->latest()->take(5)->get();
-        // $this->products = Product::withSum('orders', 'order_product.quantity')->with(['parent', 'images'])->orderBy('orders_sum_order_productquantity', 'desc')->take(5)->get();
     
     }
 
@@ -132,6 +124,7 @@ class Dashboard extends Component
             }
                         
         }
+        // dd($this->products);
         
         $this->products = json_decode(json_encode($this->products), true);
     }

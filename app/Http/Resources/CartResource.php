@@ -22,7 +22,7 @@ class CartResource extends JsonResource
             'product_id' => $this->product_id,
             'product_name' => $this->product->parent->name,
             'product_size' => $this->product->size,
-            'minium_order' => $this->product->minimum_order,
+            'minium_order' => $this->product->parent->minimum_order,
             'quantity' => $this->quantity,
             'price' => $this->product->price,
             'total_price' => $this->product->price * $this->quantity,

@@ -26,8 +26,13 @@ class OrderController extends Controller
             return $product->price * $product->pivot->quantity;
         });
 
+        $total_quantity = $order->products->sum(function ($product){
+            return $product->pivot->quantity;
+        });
+
         $order->update([
             'total' => $total,
+            'total_quantity' => $total_quantity,
         ]);
 
         return redirect()->back()->with('success-message', 'Success Recalculate Total Payment Order');
